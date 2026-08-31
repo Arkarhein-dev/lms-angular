@@ -1,0 +1,61 @@
+<div class="detail-container">
+  <!-- Top Left Home Navigation Bar Link -->
+  <nz-page-header
+    class="back-header"
+    nzBackIcon
+    nzTitle="Back to Home"
+    nzSubtitle="Library Catalog"
+    (nzBack)="onBackHome()"
+  ></nz-page-header>
+
+  <!-- Main Content Body Box Split -->
+  <div class="content-body">
+    <!-- Left Column: Book Image Profile Frame -->
+    <div class="image-column">
+      <img [src]="bookData.imageUrl" [alt]="bookData.title" class="detail-cover" />
+    </div>
+
+    <!-- Right Column: Metadata Text Blocks -->
+    <div class="info-column">
+      <h1 class="book-title">{{ bookData.title }}</h1>
+      <h3 class="book-author">By {{ bookData.author }}</h3>
+
+      <div class="meta-tags">
+        <span class="tag status-tag" [class.available]="bookData.available">
+          {{ bookData.available ? 'Available' : 'Borrowed' }}
+        </span>
+        <span class="tag genre-tag">{{ bookData.genre }}</span>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="description-section">
+        <h4>Description</h4>
+        <p class="description-text">{{ bookData.description }}</p>
+      </div>
+
+      <!-- Action Footer Slots inside details panel -->
+      <div class="action-row">
+        <button
+          (click)="onBorrowBook()"
+          class="borrow-btn"
+          nz-button
+          nzType="primary"
+          [disabled]="!bookData.available"
+        >
+          Borrow Book
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="interest-header">You may be interested in</h2>
+<hr />
+
+<div class="book-list">
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+</div>

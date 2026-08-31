@@ -1,0 +1,22 @@
+.header {
+  text-align: center;
+  font-weight: 700;
+}
+.sub-header {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+.header,
+.sub-header {
+  font-family:
+    'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
+    sans-serif;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 20px;
+}

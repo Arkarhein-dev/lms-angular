@@ -1,0 +1,89 @@
+.borrow-book-card {
+  display: flex;
+}
+
+nz-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: rgb(228, 228, 222);
+  transition: all 0.3s ease;
+}
+
+.borrow-book-card nz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.borrow-book-card img[nz-card-cover] {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card title */
+.borrow-book-card ::ng-deep .ant-card-meta-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card description */
+.borrow-book-card ::ng-deep .ant-card-meta-description {
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.button-group button {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.borrow-info {
+  margin-top: 20px;
+}
+
+.status-section {
+  margin-bottom: 16px;
+}
+.status-section nz-tag {
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.date-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  color: #8c8c8c;
+  font-size: 14px;
+}
+
+.date {
+  font-weight: 500;
+  font-size: 14px;
+}

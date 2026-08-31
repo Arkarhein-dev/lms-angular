@@ -1,0 +1,70 @@
+/* Core dashboard structural wrapper layout sizing constraints */
+.dashboard-container {
+  padding: 16px;
+  width: 100%;
+}
+
+/* Base custom card structure style extensions over Ant Design rules */
+.stat-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hover accent effects for the interactive panels */
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Deep customization hooks for Ant Design internal structure components */
+::ng-deep .stat-card .ant-statistic-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #121212;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+::ng-deep .stat-card .ant-statistic-content {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Color Accent Coding Flags for specific contexts */
+
+/* 1. Borrowed Stats: Soft Neutral Blue */
+.borrowed-border {
+  border-left: 4px solid #1890ff;
+}
+::ng-deep .borrowed-border .ant-statistic-content-value {
+  color: #1890ff;
+}
+
+/* 2. Due Soon Stats: Warning Orange Gold */
+.warning-border {
+  border-left: 4px solid #faad14;
+}
+::ng-deep .warning-border .ant-statistic-content-value {
+  color: #faad14;
+}
+
+/* 3. Overdue Stats: Danger Error Red */
+.danger-border {
+  border-left: 4px solid #ff4d4f;
+}
+::ng-deep .danger-border .ant-statistic-content-value {
+  color: #ff4d4f;
+}
+
+.borrow-book-icon {
+  font-size: 30px;
+  color: rgb(247, 149, 3);
+  background-color: rgb(84, 131, 139);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

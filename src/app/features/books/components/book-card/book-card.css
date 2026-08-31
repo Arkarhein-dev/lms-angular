@@ -1,0 +1,23 @@
+/* Removes default underline animations from anchor shells */
+.card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.book-image-card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  /* border: 1px solid red; */
+}
+
+.cover-image {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+}
+.book-title {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 30px;
+}

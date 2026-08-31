@@ -1,0 +1,34 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 30px;
+  margin-top: 20px;
+  position: fixed;
+  z-index: 1000000;
+  margin-bottom: 500px;
+}
+.logo {
+  color: white;
+  background-color: rgb(17, 83, 98);
+  padding: 10px;
+  border-radius: 60%;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 600;
+}
+ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+ul li {
+  font-size: 18px;
+}
+
+nz-icon {
+  padding-right: 10px;
+  font-size: 30px;
+  color: rgb(255, 106, 0);
+}

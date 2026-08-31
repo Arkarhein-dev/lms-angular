@@ -1,0 +1,27 @@
+<div class="dashboard-container">
+  <div nz-row [nzGutter]="[16, 18]">
+    <!-- Card 1 -->
+    <div nz-col [nzXs]="24" [nzMd]="8">
+      <nz-card class="stat-card borrowed-border">
+        <nz-icon class="borrow-book-icon" nzType="book" nzTheme="outline" />
+        <nz-statistic nzTitle="Borrowed" [nzValue]="9" />
+      </nz-card>
+    </div>
+
+    <!-- Card 2 (Wrapped in Card) -->
+    <div nz-col [nzXs]="24" [nzMd]="8">
+      <nz-card class="stat-card warning-border">
+        <nz-icon class="borrow-book-icon" nzType="product" nzTheme="outline" />
+        <nz-statistic nzTitle="Due Soon" [nzValue]="4" />
+      </nz-card>
+    </div>
+
+    <!-- Card 3 (Wrapped in Card) -->
+    <div nz-col [nzXs]="24" [nzMd]="8">
+      <nz-card class="stat-card danger-border">
+        <nz-icon class="borrow-book-icon" nzType="insert-row-above" nzTheme="outline" />
+        <nz-statistic nzTitle="Overdue" [nzValue]="5" />
+      </nz-card>
+    </div>
+  </div>
+</div>

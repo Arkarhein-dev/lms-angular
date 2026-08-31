@@ -1,0 +1,14 @@
+<div class="my-books-page">
+  <div class="page-header">
+    <h1>My Borrowed Books</h1>
+    <h3>Manage the books you have borrowed...</h3>
+  </div>
+
+  <app-booking-summary />
+
+  <div nz-row [nzGutter]="[16, 16]" class="book-grid">
+    @for (borrowBook of borrowBooks; track borrowBook.id) {
+      <app-borrow-book-card nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6" [borrowBook]="borrowBook" />
+    }
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<h1 class="header">Aka-Library - Search What you want</h1>
+<h3 class="sub-header">Your gateway to knowledge and culture. Accessible for everyone.</h3>
+
+<app-search-box
+  buttonName="Search"
+  placeholderName="Search for title, author, ISBN, DOI, publisher, md5....."
+  (searchSubmitted)="handleSearchSubmitted($event)"
+/>
+
+<div class="book-list">
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+  <app-book-card />
+</div>

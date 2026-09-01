@@ -1,0 +1,39 @@
+<nz-modal
+  nzTitle="Register Form"
+  [nzVisible]="isRegisterFormVisible()"
+  [nzFooter]="null"
+  [nzWidth]="420"
+  (nzOnCancel)="cancelRegister()"
+>
+
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+      <nz-form-item>
+        <nz-form-label nzRequired>Email</nz-form-label>
+        <nz-form-control nzErrorTip="Please enter a valid email address">
+          <input nz-input type="email" placeholder="Enter your email" formControlName="email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Password</nz-form-label>
+        <nz-form-control nzErrorTip="Password is required." >
+          <input nz-input type="password" placeholder="Enter Password" formControlName="password" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Confirm Password</nz-form-label>
+        <nz-form-control nzErrorTip="Confirm password should be the same with with Password" >
+          <input nz-input type="password" placeholder="Enter Confirm Password" formControlName="passwordConfirm" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <button nz-button nzType="primary" nzSize="large" nzBlock type="submit"[disabled]="registerForm.invalid" >Register</button>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+
+</nz-modal>

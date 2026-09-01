@@ -1,0 +1,65 @@
+<h1>Admin Dashboard</h1>
+<nz-row [nzGutter]="[24, 24]">
+  <nz-col [nzXs]="24" [nzMd]="8">
+    <nz-card class="stat-card borrowed-border">
+      <nz-icon class="borrow-book-icon" nzType="book" nzTheme="outline" />
+      <nz-statistic nzTitle="Total Books" [nzValue]="120" />
+    </nz-card>
+  </nz-col>
+
+  <nz-col [nzXs]="24" [nzMd]="8">
+    <nz-card class="stat-card warning-border">
+      <nz-icon class="borrow-book-icon" nzType="user" nzTheme="outline" />
+      <nz-statistic nzTitle="Total Users" [nzValue]="45" />
+    </nz-card>
+  </nz-col>
+
+  <nz-col [nzXs]="24" [nzMd]="8">
+    <nz-card class="stat-card danger-border">
+      <nz-icon class="borrow-book-icon" nzType="insert-row-above" nzTheme="outline" />
+      <nz-statistic nzTitle="Overdue Books" [nzValue]="5" />
+    </nz-card>
+  </nz-col>
+</nz-row>
+
+<!-- Book Inventory Section -->
+<nz-row class="inventory-header">
+  <h2 nz-col nzSpan="6">Book Inventory</h2>
+  <app-search-box
+    nz-col
+    nzSpan="12"
+    buttonName="Search Books"
+    placeholderName="Search the book you want"
+  />
+  <div class="add-book-button" nz-col nzSpan="6">
+    <button class="add-book-btn" nz-button nzType="primary" nzSize="large">
+      <nz-icon nzType="folder-add" nzTheme="fill" />
+      Add New Book
+    </button>
+  </div>
+</nz-row>
+
+<nz-table #bookData [nzData]="bookDataList">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Order</th>
+      <th>Stock</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (book of bookDataList; track book.id) {
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.stock }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="editBook(book)">Edit</button>
+          <button nz-button nzType="primary" nzDanger (click)="deleteBook(book)">Delete</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
+<!-- </ng-container> -->

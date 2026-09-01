@@ -1,0 +1,30 @@
+<!-- <div class="header-container">
+  <h1>User Borrow History</h1>
+  <nz-tag [nzColor]="'blue'" [nzMode]="'default'"> User ID: {{ userId() }} </nz-tag>
+</div>
+<nz-table #borrowRecords [nzData]="userBorrowBooks">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Book Image</th>
+      <th>Book Title</th>
+      <th>Borrow Date</th>
+      <th>Due Date</th>
+      <th>Return Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (record of borrowRecords; track record.id) {
+      <tr>
+        <td>{{ record.id }}</td>
+        <td>
+          <img [src]="record.bookImage" [alt]="record.bookTitle" class="book-image" />
+        </td>
+        <td>{{ record.bookTitle }}</td>
+        <td>{{ record.borrowDate }}</td>
+        <td>{{ record.dueDate }}</td>
+        <td>{{ record.returnDate || 'Not Returned' }}</td>
+      </tr>
+    }
+  </tbody>
+</nz-table> -->

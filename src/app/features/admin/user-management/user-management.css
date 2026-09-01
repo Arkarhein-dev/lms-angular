@@ -1,0 +1,46 @@
+:host {
+  padding: 20px;
+}
+
+.user-management-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+}
+.user-management-header .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.user-management-header nz-icon {
+  font-size: 30px;
+  background-color: #d1c5c5;
+  padding: 10px;
+  border-radius: 9px;
+  color: rgb(247, 54, 0);
+}
+.user-management-header h1 {
+  margin-top: 13px;
+  margin-left: 10px;
+}
+.thead {
+  background-color: rgb(46, 39, 39);
+}
+/* Change header background color and text font size */
+::ng-deep .ant-table-thead > tr > th {
+  background-color: #f0f5ff;
+  font-size: 14px;
+}
+
+/* Change body cell font size and background color */
+::ng-deep .ant-table-tbody > tr > td {
+  background-color: #ffffff;
+  font-size: 13px;
+}
+
+/* Change hover background color for rows */
+::ng-deep .ant-table-tbody > tr:hover > td {
+  background-color: #e6f7ff;
+}

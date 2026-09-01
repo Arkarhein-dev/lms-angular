@@ -1,5 +1,7 @@
 <nz-layout>
-  <app-navbar />
+  <app-navbar (loginClick)="loginModal.showModal()" />
 
   <router-outlet class="router-outlet" />
+  <app-login #loginModal (registerRequest)="registerModal.showRegisterForm()" ></app-login>
+  <app-register #registerModal></app-register>
 </nz-layout>

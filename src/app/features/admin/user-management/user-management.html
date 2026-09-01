@@ -1,0 +1,39 @@
+<div class="user-management-header">
+  <div class="header-content">
+    <nz-icon nzType="user" nzTheme="outline" />
+    <h1>User Management</h1>
+  </div>
+  <app-search-box buttonName="Search" placeholderName="Search Users" />
+</div>
+
+<nz-table #userData [nzData]="MOCK_USERS">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (user of MOCK_USERS; track user.id) {
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <a
+            [routerLink]="['/admin/user', user.id, 'borrowed-books']"
+            nz-button
+            nzType="primary"
+            nzSize="large"
+          >
+            <nz-icon nzType="book" nzTheme="outline" />
+            View Borrowed Books
+          </a>
+        </td>
+      </tr>
+    }
+  </tbody></nz-table
+>

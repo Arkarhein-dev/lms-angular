@@ -32,3 +32,6 @@ nz-icon {
   font-size: 30px;
   color: rgb(255, 106, 0);
 }
+.ant-menu-title {
+  border-radius: 10px;
+}

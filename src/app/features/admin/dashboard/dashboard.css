@@ -131,3 +131,10 @@ td button[nz-button] {
 td button[nz-button]:last-child {
   margin-right: 0;
 }
+
+.book-img {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 20px;
+}

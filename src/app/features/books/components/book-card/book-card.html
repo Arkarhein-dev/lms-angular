@@ -1,15 +1,13 @@
 <div>
-  <a [routerLink]="['/book-detail', 1]" class="card-link">
-    <nz-card [nzBordered]="false" nzHoverable [nzCover]="coverTemplate" class="book-image-card">
-    </nz-card>
-  </a>
+  @if (book()) {
+    <a [routerLink]="['/book-detail', book()?.id]" class="card-link">
+      <nz-card [nzBordered]="false" nzHoverable [nzCover]="coverTemplate" class="book-image-card">
+      </nz-card>
+    </a>
 
-  <ng-template #coverTemplate>
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfEsXDhjh6Mo1PXrhy8FlqS-3CO0JBoJSWCgKHVuJkyg&s"
-      alt="Book Cover Picture"
-      class="cover-image"
-    />
-    <h2 class="book-title">The last day of Pompeii</h2>
-  </ng-template>
+    <ng-template #coverTemplate>
+      <img [src]="book()?.imageUrl" [alt]="book()?.title" class="cover-image" />
+      <h2 class="book-title">{{ book()?.title }}</h2>
+    </ng-template>
+  }
 </div>

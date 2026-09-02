@@ -1,4 +1,4 @@
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, numberAttribute } from '@angular/core';
 import { User } from '../user.model';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { borrowBooks } from '../../../my-books/my-books';
@@ -14,23 +14,28 @@ import { NzCardModule } from 'ng-zorro-antd/card';
   templateUrl: './user-borrow-books.html',
 })
 export class UserBorrowBooks {
-  userId = input<number>();
-  user = dummyUsers.find((user) => user.id === this.userId());
-  borrowBooks: BorrowBook[] = borrowBooks;
-  userBorrowBooks!: BorrowBook[];
+  userId = input<number, string | number>(undefined, {
+    transform: numberAttribute,
+  });
+
+  user = computed(() => dummyUsers.find((user) => user.id === this.userId()));
+
+  userBorrowBooks = computed(() =>
+    borrowBooks.filter((borrowBook) => borrowBook.userId === this.userId()),
+  );
 
   constructor() {
-    // to inspect userId value when the component is initialized
     effect(() => {
-      if (this.userId() !== undefined) {
-        console.log('UserBorrowBooks component resolved with user ID:', this.userId());
-      }
-      this.userBorrowBooks = borrowBooks.filter((book) => book.userId === this.userId());
-      console.log(this.userBorrowBooks);
-    });
-  }
+      console.log('userId:', this.userId());
+      console.log('userId type:', typeof this.userId());
 
-  ngonInit() {
-    
+      console.log('borrowBooks:', borrowBooks);
+
+      borrowBooks.forEach((book) => {
+        console.log('borrowBook userId:', book.userId, 'type:', typeof book.userId);
+      });
+
+      console.log('filtered:', this.userBorrowBooks());
+    });
   }
 }

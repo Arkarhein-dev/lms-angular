@@ -30,3 +30,33 @@ nz-input-search {
   width: 100%;
   height: 100%;
 }
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.loading-msg {
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.error-msg-container {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #9ca3af;
+  padding: 3rem 0;
+}

@@ -5,6 +5,6 @@ export interface Book {
   imageUrl: string;
   genre: string;
   available: boolean;
-  stock: number;
+  stock: number | null;
   description: string;
 }

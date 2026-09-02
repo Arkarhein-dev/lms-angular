@@ -1,0 +1,78 @@
+/* --- Fix Modal Window Size Container --- */
+::ng-deep .ant-modal {
+  width: 650px !important; /* Made wider so inputs have plenty of breathing room */
+  max-width: 95vw !important;
+  margin: 0 auto !important;
+  top: -2px !important;
+}
+
+::ng-deep .ant-modal-body {
+  padding: 24px 32px !important;
+  background-color: #ffffff;
+}
+
+/* --- Fix Form Layout (Top-to-Bottom Stacking) --- */
+::ng-deep .ant-form-item {
+  display: flex !important;
+  flex-direction: column !important; /* Force vertical stacking */
+  align-items: stretch !important;
+  width: 100% !important;
+  margin-bottom: 20px !important;
+}
+
+/* --- Fix Labels Moving to Right Side --- */
+::ng-deep .ant-form-item-label {
+  display: block !important;
+  text-align: left !important; /* Force text to align completely to the left side */
+  padding: 0 0 6px 0 !important; /* Space between label and input */
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+}
+
+::ng-deep .ant-form-item-label > label {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important; /* Stop labels from drifting right */
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #262626 !important;
+}
+
+/* Force standard red required asterisks to align perfectly next to the text */
+::ng-deep .ant-form-item-label > label.ant-form-item-required::before {
+  display: inline-block !important;
+  margin-right: 4px !important;
+}
+
+/* --- Fix Inputs and Control Containers --- */
+::ng-deep .ant-form-item-control {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+}
+
+input[nz-input],
+textarea[nz-input] {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 6px !important;
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  border: 1px solid #d9d9d9 !important;
+}
+
+textarea[nz-input] {
+  min-height: 100px !important;
+}
+
+/* --- Actions/Button Section Layout --- */
+.form-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  margin-top: 24px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid #f0f0f0 !important;
+}

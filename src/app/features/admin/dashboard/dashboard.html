@@ -3,7 +3,7 @@
   <nz-col [nzXs]="24" [nzMd]="8">
     <nz-card class="stat-card borrowed-border">
       <nz-icon class="borrow-book-icon" nzType="book" nzTheme="outline" />
-      <nz-statistic nzTitle="Total Books" [nzValue]="120" />
+      <nz-statistic nzTitle="Total Books" [nzValue]="books().length" />
     </nz-card>
   </nz-col>
 
@@ -32,30 +32,40 @@
     placeholderName="Search the book you want"
   />
   <div class="add-book-button" nz-col nzSpan="6">
-    <button class="add-book-btn" nz-button nzType="primary" nzSize="large">
+    <button
+      (click)="openCreateBookForm()"
+      class="add-book-btn"
+      nz-button
+      nzType="primary"
+      nzSize="large"
+    >
       <nz-icon nzType="folder-add" nzTheme="fill" />
       Add New Book
     </button>
   </div>
 </nz-row>
 
-<nz-table #bookData [nzData]="bookDataList">
+<nz-table #bookData [nzData]="books()">
   <thead>
     <tr>
+      <th>Book Image</th>
       <th>Title</th>
-      <th>Order</th>
+      <th>Author</th>
       <th>Stock</th>
-      <th>Action</th>
+      <th nzWidth="300px">Action</th>
     </tr>
   </thead>
   <tbody>
-    @for (book of bookDataList; track book.id) {
+    @for (book of bookData.data; track book.id) {
       <tr>
+        <td>
+          <img class="book-img" [src]="book.imageUrl" [alt]="book.title" />
+        </td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
         <td>{{ book.stock }}</td>
         <td>
-          <button nz-button nzType="primary" (click)="editBook(book)">Edit</button>
+          <button nz-button nzType="primary" (click)="openUpdateBookForm(book)">Edit</button>
           <button nz-button nzType="primary" nzDanger (click)="deleteBook(book)">Delete</button>
         </td>
       </tr>
@@ -63,3 +73,10 @@
   </tbody>
 </nz-table>
 <!-- </ng-container> -->
+
+<app-book-form-modal
+  [visible]="isBookFormVisible()"
+  [book]="selectedBook()"
+  (closed)="closeBookForm()"
+  (submitted)="handleBookSubmit($event)"
+/>

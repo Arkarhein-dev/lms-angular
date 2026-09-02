@@ -8,54 +8,60 @@
     (nzBack)="onBackHome()"
   ></nz-page-header>
 
-  <!-- Main Content Body Box Split -->
-  <div class="content-body">
-    <!-- Left Column: Book Image Profile Frame -->
-    <div class="image-column">
-      <img [src]="bookData.imageUrl" [alt]="bookData.title" class="detail-cover" />
+  @if (isLoading()) {
+    <div class="loading-spinner">
+      <nz-spin nzSimple nzSize="large"></nz-spin>
     </div>
-
-    <!-- Right Column: Metadata Text Blocks -->
-    <div class="info-column">
-      <h1 class="book-title">{{ bookData.title }}</h1>
-      <h3 class="book-author">By {{ bookData.author }}</h3>
-
-      <div class="meta-tags">
-        <span class="tag status-tag" [class.available]="bookData.available">
-          {{ bookData.available ? 'Available' : 'Borrowed' }}
-        </span>
-        <span class="tag genre-tag">{{ bookData.genre }}</span>
+  } @else if (selectedBook(); as book) {
+    <!-- Main Content Body Box Split -->
+    <div class="content-body">
+      <!-- Left Column: Book Image Profile Frame -->
+      <div class="image-column">
+        <img [src]="book.imageUrl" [alt]="book.title" class="detail-cover" />
       </div>
 
-      <hr class="divider" />
+      <div class="info-column">
+        <h1 class="book-title">{{ book.title }}</h1>
+        <h3 class="book-author">By {{ book.author }}</h3>
 
-      <div class="description-section">
-        <h4>Description</h4>
-        <p class="description-text">{{ bookData.description }}</p>
-      </div>
+        <div class="meta-tags">
+          <span class="tag status-tag" [class.available]="book.available">
+            {{ book.available ? 'Available' : 'Borrowed' }}
+          </span>
+          <span class="tag genre-tag">{{ book.genre }}</span>
+        </div>
 
-      <!-- Action Footer Slots inside details panel -->
-      <div class="action-row">
-        <button
-          (click)="onBorrowBook()"
-          class="borrow-btn"
-          nz-button
-          nzType="primary"
-          [disabled]="!bookData.available"
-        >
-          Borrow Book
-        </button>
+        <hr class="divider" />
+
+        <div class="description-section">
+          <h4>Description</h4>
+          <p class="description-text">{{ book.description }}</p>
+        </div>
+
+        <!-- Action Footer Slots inside details panel -->
+        <div class="action-row">
+          <button
+            (click)="onBorrowBook()"
+            class="borrow-btn"
+            nz-button
+            nzType="primary"
+            [disabled]="!book.available"
+          >
+            Borrow Book
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  } @else {
+    <p class="not-found-msg">Book details not found.</p>
+  }
 </div>
 
 <h2 class="interest-header">You may be interested in</h2>
 <hr />
 
 <div class="book-list">
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
+  @for (recommendedBook of books().slice(0, 4); track recommendedBook.id) {
+    <app-book-card [book]="recommendedBook" />
+  }
 </div>

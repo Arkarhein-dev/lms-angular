@@ -2,17 +2,35 @@
 <h3 class="sub-header">Your gateway to knowledge and culture. Accessible for everyone.</h3>
 
 <div class="search-box-container">
-  <app-search-box
-    buttonName="Search Books"
-    placeholderName="Search the book you want"
-  />
+  <app-search-box buttonName="Search Books" placeholderName="Search the book you want" />
 </div>
 
-<div class="book-list">
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
-  <app-book-card />
-</div>
+@if (isLoading()) {
+  <div class="loading-container">
+    <nz-spin nzSimple></nz-spin>
+    <p class="loading-msg">Loading Books...</p>
+  </div>
+} @else if (errorMessage()) {
+  <div class="error-msg-container">
+    <nz-alert
+      nzType="error"
+      nzMessage="Error"
+      nzDescription="Error while fetching Books"
+      nzShowIcon
+      [nzAction]="retryBtn"
+    />
+    <ng-template #retryBtn>
+      <button nz-button nzType="primary" nzSize="small" (click)="fetchBooks()">Retry</button>
+    </ng-template>
+  </div>
+} @else {
+  @if (books().length > 0) {
+    <div class="book-list">
+      @for (book of books(); track book.id) {
+        <app-book-card [book]="book" />
+      }
+    </div>
+  } @else {
+    <p class="empty-msg">No books available in the library</p>
+  }
+}

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BorrowBook, BorrowStatus } from './models/borrow-book.model';
+import { BorrowBook } from './models/borrow-book.model';
 import { BookingSummary } from './components/booking-summary/booking-summary';
 import { BorrowBookCard } from './components/borrow-book-card/borrow-book-card';
 import { NzGridModule } from 'ng-zorro-antd/grid';

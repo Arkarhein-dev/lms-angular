@@ -1,5 +1,5 @@
 import { Book } from './../../books/models/book.model';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -27,6 +27,7 @@ import { BookService } from '../../../core/services/book.service';
 })
 export class Dashboard {
   private bookService = inject(BookService);
+  private destroyRef = inject(DestroyRef);
   private booksSignal = signal<Book[]>([]);
   books = this.booksSignal.asReadonly();
   isLoading = signal<boolean>(true);
@@ -46,7 +47,7 @@ export class Dashboard {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.bookService.getAllBooks().subscribe({
+    const subscription = this.bookService.getAllBooks().subscribe({
       next: (books) => {
         this.booksSignal.set(books.content);
         this.isLoading.set(false);
@@ -57,6 +58,10 @@ export class Dashboard {
         this.isLoading.set(false);
       },
       complete: () => console.log('Book Fetching Completed'),
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
     });
   }
 

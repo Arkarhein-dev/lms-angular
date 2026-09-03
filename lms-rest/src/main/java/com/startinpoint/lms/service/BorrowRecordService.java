@@ -1,7 +1,6 @@
 package com.startinpoint.lms.service;
 
 import com.startinpoint.lms.dto.response.BorrowRecordResponseDto;
-import com.startinpoint.lms.dto.response.UserResponseDto;
 import com.startinpoint.lms.entity.BorrowStatus;
 import com.startinpoint.lms.mapper.BorrowRecordMapper;
 import com.startinpoint.lms.mapper.UserMapper;
@@ -25,9 +24,10 @@ public class BorrowRecordService {
 
     public Page<BorrowRecordResponseDto> getUserActiveBorrowRecords(
             String username, BorrowStatus status,
-            int page, int pageSize, String sortField, String sortDir
+            Pageable pageable
+//            int page, int pageSize, String sortField, String sortDir
     ) {
-        Pageable pageable = createPageable(page, pageSize, sortField, sortDir);
+//        Pageable pageable = createPageable(page, pageSize, sortField, sortDir);
 
         if (status == null) {
             return borrowRecordRepository.findByUserUsername(username, pageable)
@@ -39,9 +39,9 @@ public class BorrowRecordService {
 
     public Page<BorrowRecordResponseDto> fetchBorrowRecordByKeyword(
             String keyword, String username, BorrowStatus status,
-            int page, int size, String sortField, String sortDir
+            Pageable pageable
     ) {
-        Pageable pageable = createPageable(page, size, sortField, sortDir);
+//        Pageable pageable = createPageable(page, size, sortField, sortDir);
 
         if (status == null) {
             return borrowRecordRepository.findBorrowBookBykeyword(username, keyword, pageable)
@@ -51,11 +51,11 @@ public class BorrowRecordService {
                 .map(borrowRecordMapper::toResponseDto);
     }
 
-    // Get All Users
-    public Page<UserResponseDto> getAllUsers(int pageNo, int pageSize, String sortField, String sortDir) {
-        Pageable pageable = createPageable(pageNo, pageSize, sortField, sortDir);
-        return userRepository.findAll(pageable).map(userMapper::toResponseDto);
-    }
+//    // Get All Users
+//    public Page<UserResponseDto> getAllUsers(int pageNo, int pageSize, String sortField, String sortDir) {
+//        Pageable pageable = createPageable(pageNo, pageSize, sortField, sortDir);
+//        return userRepository.findAll(pageable).map(userMapper::toResponseDto);
+//    }
 
     // Fetch borrow Record by User
     public Page<BorrowRecordResponseDto> fetchBorrowRecordByUser(

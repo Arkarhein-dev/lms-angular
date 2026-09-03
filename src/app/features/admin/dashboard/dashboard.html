@@ -51,6 +51,7 @@
       <th>Book Image</th>
       <th>Title</th>
       <th>Author</th>
+      <th>Genre</th>
       <th>Stock</th>
       <th nzWidth="300px">Action</th>
     </tr>
@@ -63,6 +64,7 @@
         </td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
+        <td>{{ book.genre }}</td>
         <td>{{ book.stock }}</td>
         <td>
           <button nz-button nzType="primary" (click)="openUpdateBookForm(book)">Edit</button>

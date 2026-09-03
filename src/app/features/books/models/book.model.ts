@@ -5,6 +5,8 @@ export interface Book {
   imageUrl: string;
   genre: string;
   available: boolean;
-  stock: number | null;
+  stock: number;
   description: string;
 }
+
+export type BookCreateOrUpdateRequest = Omit<Book, 'id' | 'available'>;

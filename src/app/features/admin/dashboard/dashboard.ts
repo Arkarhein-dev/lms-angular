@@ -84,16 +84,36 @@ export class Dashboard {
   }
 
   handleBookSubmit(bookData: any): void {
-    if (this.selectedBook()) {
-      console.log('UPDATE BOOK');
-      console.log('Book ID:', this.selectedBook()?.id);
-      console.log('Form data:', bookData);
+    const currentBook = this.selectedBook();
+    if (currentBook) {
+      this.bookService.updateBook(currentBook.id, bookData).subscribe({
+        next: (updateBook) => {
+          this.booksSignal.update((books) =>
+            books.map((b) => (b.id === updateBook.id ? updateBook : b)),
+          );
+          this.closeBookForm();
+        },
+        error: (err) => console.error('Error while updating books', err),
+      });
     } else {
-      console.log('CREATE BOOK');
-      console.log('Form data:', bookData);
+      this.bookService.createBook(bookData).subscribe({
+        next: (newBook) => {
+          this.booksSignal.update((books) => [...books, newBook]);
+          this.closeBookForm();
+        },
+        error: (err) => console.error('Error while updating books', err),
+      });
     }
-    this.closeBookForm();
   }
 
-  deleteBook(book: Book) {}
+  deleteBook(book: Book): void {
+    if (confirm(`Are you sure you want to delete "${book.id}"`)) {
+      this.bookService.deleteBook(book.id).subscribe({
+        next: () => {
+          this.booksSignal.update((books) => books.filter((b) => b.id !== book.id));
+        },
+        error: (err) => console.error('Error while deleting book',err)
+      });
+    }
+  }
 }

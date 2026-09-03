@@ -15,5 +15,4 @@ public interface BorrowRecordMapper {
     @Mapping(target = "username",source = "user.username")
     BorrowRecordResponseDto toResponseDto(BorrowRecord borrowRecord);
 
-
 }

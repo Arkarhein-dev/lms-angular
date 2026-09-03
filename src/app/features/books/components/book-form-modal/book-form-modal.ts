@@ -17,35 +17,43 @@ export class BookFormModal {
   book = input<Book | null>(null);
   closed = output<void>();
   submitted = output<{
-    title: string | null;
-    author: string | null;
-    imageUrl: string | null;
-    genre: string | null;
-    stock: number | null;
-    description: string | null;
+    title: string;
+    author: string;
+    imageUrl: string;
+    genre: string;
+    stock: number;
+    description: string;
   }>();
 
-  private urlPattern = '(https?://)?([\\da-z-]+)\\.([a-z]{2,6})([/\\w -]*)*/?';
+  // Use RegExp literal instead of string to prevent backslash escaping issues
+  private urlPattern =
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
 
   bookForm = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.maxLength(40)]),
-    author: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-    imageUrl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(this.urlPattern), // Ensures it behaves like an image link
-    ]),
-    genre: new FormControl('', [Validators.required]),
-    // FIX: Set an explicit boolean initial state. Remove required so 'false' is allowed.
-    stock: new FormControl<number | null>(null, [
-      Validators.required,
-      Validators.min(0), // Cannot have negative books in inventory
-      Validators.max(999), // Keeps data within reasonable bounds
-    ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(20), // Ensures meaningful details are provided
-      Validators.maxLength(1000),
-    ]),
+    title: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(40)],
+    }),
+    author: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(20)],
+    }),
+    imageUrl: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern(this.urlPattern)],
+    }),
+    genre: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    stock: new FormControl<number>(0, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(0), Validators.max(999)],
+    }),
+    description: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(20), Validators.maxLength(1000)],
+    }),
   });
 
   constructor() {
@@ -57,9 +65,11 @@ export class BookFormModal {
           author: book.author,
           imageUrl: book.imageUrl,
           genre: book.genre,
-          stock: book.stock,
+          stock: book.stock ?? 0,
           description: book.description,
         });
+      } else {
+        this.bookForm.reset({ stock: 0 });
       }
     });
   }
@@ -76,7 +86,5 @@ export class BookFormModal {
     }
 
     this.submitted.emit(this.bookForm.getRawValue());
-    this.bookForm.reset();
-    this.closeModal();
   }
 }

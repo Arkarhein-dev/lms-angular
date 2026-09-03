@@ -1,4 +1,10 @@
 package com.startinpoint.lms.dto.request;
 
-public record BookReturnRequestDto() {
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+public record BookReturnRequestDto(
+  @NotNull(message = "Record Id should not be null")
+  Long recordId
+) {
 }

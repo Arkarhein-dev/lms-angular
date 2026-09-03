@@ -102,7 +102,7 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
             Pageable pageable
     );
 
-    // find borrow records that have been overdued to return
+    // find borrow records that have been overdue to return
     @Query("""
     select br from BorrowRecord br where br.returnedDate is null and br.dueDate < :today
 """)

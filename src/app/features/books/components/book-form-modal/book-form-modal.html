@@ -7,12 +7,15 @@
 >
   <ng-container *nzModalContent>
     <form nz-form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <!-- Title -->
       <nz-form-item>
-        <nz-form-label nzRequired> Title </nz-form-label>
+        <nz-form-label nzRequired>Title</nz-form-label>
         <nz-form-control nzErrorTip="Title is required">
           <input type="text" nz-input formControlName="title" placeholder="Enter Book Title" />
         </nz-form-control>
       </nz-form-item>
+
+      <!-- Author -->
       <nz-form-item>
         <nz-form-label nzRequired>Author</nz-form-label>
         <nz-form-control nzErrorTip="Author is required">
@@ -20,13 +23,15 @@
         </nz-form-control>
       </nz-form-item>
 
+      <!-- ImageUrl -->
       <nz-form-item>
-        <nz-form-label nzRequired> ImageUrl </nz-form-label>
+        <nz-form-label nzRequired>ImageUrl</nz-form-label>
         <nz-form-control nzErrorTip="ImageUrl is required">
           <input type="text" nz-input formControlName="imageUrl" placeholder="Enter ImageUrl" />
         </nz-form-control>
       </nz-form-item>
 
+      <!-- Genre -->
       <nz-form-item>
         <nz-form-label nzRequired>Genre</nz-form-label>
         <nz-form-control nzErrorTip="Genre is required">
@@ -34,8 +39,24 @@
         </nz-form-control>
       </nz-form-item>
 
+      <!-- ➕ ADD THIS MISSING STOCK FIELD CONTROL -->
       <nz-form-item>
-        <nz-form-label nzRequired> Description </nz-form-label>
+        <nz-form-label nzRequired>Stock Quantity</nz-form-label>
+        <nz-form-control nzErrorTip="Stock must be between 0 and 999">
+          <input
+            type="number"
+            nz-input
+            formControlName="stock"
+            placeholder="Enter Stock Quantity"
+            min="0"
+            max="999"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Description -->
+      <nz-form-item>
+        <nz-form-label nzRequired>Description</nz-form-label>
         <nz-form-control nzErrorTip="Description must be between 20 and 1000 characters">
           <textarea
             nz-input

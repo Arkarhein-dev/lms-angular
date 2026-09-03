@@ -1,4 +1,4 @@
 package com.startinpoint.lms.controller;
 
-public class AuthController {
+public class BorrowRecordController {
 }

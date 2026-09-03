@@ -1,4 +1,4 @@
-package com.startinpoint.lms.dto.request;
+package com.startinpoint.lms.dto.authDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

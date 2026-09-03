@@ -39,6 +39,7 @@ public class SecurityConfig {
           .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.GET,"api/v1/books/**").permitAll()
             .requestMatchers("api/v1/auth/**").permitAll()
+            .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
             .anyRequest().authenticated()
           )
           .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -82,6 +83,5 @@ public class SecurityConfig {
     source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
     return source;
   }
-
 
 }

@@ -60,10 +60,8 @@ public class BorrowRecordService {
     // Fetch borrow Record by User
     public Page<BorrowRecordResponseDto> fetchBorrowRecordByUser(
             Long userId, BorrowStatus status,
-            int pageNo, int pageSize, String sortField, String sortDir
+            Pageable pageable
     ) {
-        Pageable pageable = createPageable(pageNo, pageSize, sortField, sortDir);
-
         if (status != null) {
             return borrowRecordRepository.findByUserIdAndStatus(userId, status, pageable)
                     .map(borrowRecordMapper::toResponseDto);
@@ -74,10 +72,8 @@ public class BorrowRecordService {
 
     // Fetch borrow Record by User ID + Keyword
     public Page<BorrowRecordResponseDto> fetchBorrowRecordByUserWithKeyword(
-            Long userId, String keyword, BorrowStatus status,
-            int page, int pageSize, String sortField, String sortDir
+            Long userId, String keyword, BorrowStatus status, Pageable pageable
     ) {
-        Pageable pageable = createPageable(page, pageSize, sortField, sortDir);
 
         if (status == null) {
             return borrowRecordRepository.fetchBorrowRecordByUserWithKeyword(userId, keyword, pageable)

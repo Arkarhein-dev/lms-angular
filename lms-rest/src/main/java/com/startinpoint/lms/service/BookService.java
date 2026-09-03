@@ -173,6 +173,4 @@ public BookResponseDto saveOrUpdateBook(Long id, BookCreateOrUpdateRequestDto dt
 		bookRepository.save(book);
     return borrowRecordMapper.toResponseDto(savedBorrowRecord);
 	}
-
-
 }

@@ -1,6 +1,7 @@
 package com.startinpoint.lms.mapper;
 
 import com.startinpoint.lms.dto.authDto.RegisterRequestDto;
+import com.startinpoint.lms.dto.response.UserResponseDto;
 import com.startinpoint.lms.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,4 +14,7 @@ public interface UserMapper {
     @Mapping(target = "role",ignore = true)
     @Mapping(target = "active",ignore = true)
     User toUserEntity(RegisterRequestDto dto);
+
+
+    UserResponseDto toResponseDto(User user);
 }

@@ -24,6 +24,7 @@ public class BorrowRecordController {
   private final BorrowRecordService borrowRecordService;
   private final BookService bookService;
 
+
   @GetMapping
   public ResponseEntity<Page<BorrowRecordResponseDto>> getBorrowRecords(
     @PageableDefault(page=0, size=100, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
@@ -32,7 +33,7 @@ public class BorrowRecordController {
     Authentication authentication
   ){
     String username = authentication.getName();
-    System.out.println("username : "+ username);
+//    System.out.println("username : "+ username);
 
     if (keyword != null && keyword.trim().isEmpty()){
       return ResponseEntity.ok(borrowRecordService.fetchBorrowRecordByKeyword(keyword,username,status,pageable));

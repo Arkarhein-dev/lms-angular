@@ -12,6 +12,7 @@ public interface BorrowRecordMapper {
     @Mapping(target = "bookTitle",source = "book.title")
     @Mapping(target = "bookAuthor",source = "book.author")
     @Mapping(target = "bookImage",source = "book.imageUrl")
+    @Mapping(target="bookDescription",source = "book.description")
     @Mapping(target = "userId",source = "user.id")
     BorrowRecordResponseDto toResponseDto(BorrowRecord borrowRecord);
 

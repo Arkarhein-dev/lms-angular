@@ -5,6 +5,7 @@ export interface BorrowRecord {
   bookId: number;
   bookImage: string;
   bookTitle: string;
+  bookDescription: string;
   userId: number;
   borrowDate: string;
   dueDate: string;

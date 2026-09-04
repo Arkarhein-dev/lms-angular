@@ -12,6 +12,7 @@ public record BorrowRecordResponseDto(
         String bookTitle,
         String bookAuthor,
         String bookImage,
+        String bookDescription,
         Long userId,
         LocalDate borrowDate,
         LocalDate dueDate,

@@ -1,4 +1,14 @@
-import { Component, DestroyRef, effect, inject, input, OnInit, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { BorrowRecord } from '../../models/borrow-book.model';
 import { NzGridModule } from 'ng-zorro-antd/grid';

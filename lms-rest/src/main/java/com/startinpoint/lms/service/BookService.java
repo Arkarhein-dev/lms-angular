@@ -61,8 +61,9 @@ public class BookService {
 	}
 
 	public BookResponseDto getBookById(long id) {
-		Book book = bookRepository.findById(id).orElseThrow(() ->new IllegalArgumentException("Book Not Found."));
-		return bookMapper.toBookResponse(book);
+		return bookRepository.findById(id)
+      .map(bookMapper::toBookResponse)
+      .orElseThrow(() -> new IllegalArgumentException("Book Not found with id : "+ id));
 	}
 
   // Available Books ONLY (No keyword)

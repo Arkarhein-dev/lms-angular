@@ -13,6 +13,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcbUsRUHuWS2IZzq3R8UDIsOAPse3C5Wrk-aJENvbrM-nxYXI&s',
     bookTitle: 'Spiderman No way home',
+    bookDescription: 'bla bla bla',
     userId: 501,
     borrowDate: '2026-08-15',
     dueDate: '2026-08-28',
@@ -25,6 +26,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzp8bPpqBWwdjzTlWXchN2xFJOnSqLaBfa3jQxD7DmFlvNe0vY&s',
     bookTitle: 'Advanger: Infinity War',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -37,6 +39,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw-LiMcYepihMzxZQCWFDZqe_qKvBEHZ9Noh9AlIdFk6KVZYs&s',
     bookTitle: 'End Game',
+    bookDescription: 'bla bla bla',
     userId: 103,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -49,6 +52,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -61,6 +65,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -73,6 +78,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 104,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -85,6 +91,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -97,6 +104,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-11',
@@ -109,6 +117,7 @@ export const borrowBooks: BorrowRecord[] = [
     bookImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
     bookTitle: 'Spider man : Barnd new Day',
+    bookDescription: 'bla bla bla',
     userId: 502,
     borrowDate: '2026-08-28',
     dueDate: '2026-09-05',

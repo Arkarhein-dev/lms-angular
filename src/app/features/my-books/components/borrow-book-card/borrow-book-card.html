@@ -2,7 +2,10 @@
   <nz-card nzHoverable>
     <img nz-card-cover [src]="borrowRecord().bookImage" [alt]="borrowRecord().bookTitle" />
 
-    <nz-card-meta [nzTitle]="borrowRecord().bookTitle" nzDescription="Brand new day bla bla" />
+    <nz-card-meta
+      [nzTitle]="borrowRecord().bookTitle"
+      [nzDescription]="borrowRecord().bookDescription"
+    />
 
     <div class="borrow-info">
       <div class="status-section">

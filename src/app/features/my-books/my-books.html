@@ -6,7 +6,7 @@
 
   <app-booking-summary />
 
-  <div nz-row [nzGutter]="[16, 16]" nzJustify="center" nzAlign="middle" class="book-grid">
+  <div nz-row [nzGutter]="[16, 16]" nzJustify="start" nzAlign="middle" class="book-grid">
     @for (borrowRecord of borrowRecords(); track borrowRecord.id) {
       <app-borrow-book-card
         nz-col

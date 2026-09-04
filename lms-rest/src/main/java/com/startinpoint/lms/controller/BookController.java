@@ -32,6 +32,11 @@ public class BookController {
         return ResponseEntity.ok(bookService.getAllBooks(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponseDto> getBookById(@PathVariable("id") Long id){
+      return ResponseEntity.ok(bookService.getBookById(id));
+    }
+
     // 1. CREATE ENDPOINT
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")

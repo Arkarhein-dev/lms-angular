@@ -6,9 +6,18 @@
 
   <app-booking-summary />
 
-  <div nz-row [nzGutter]="[16, 16]" class="book-grid">
-    @for (borrowBook of borrowBooks; track borrowBook.id) {
-      <app-borrow-book-card nz-col [nzXs]="24" [nzSm]="12" [nzLg]="6" [borrowBook]="borrowBook" />
+  <div nz-row [nzGutter]="[16, 16]" nzJustify="center" nzAlign="middle" class="book-grid">
+    @for (borrowRecord of borrowRecords(); track borrowRecord.id) {
+      <app-borrow-book-card
+        nz-col
+        [nzXs]="24"
+        [nzSm]="12"
+        [nzLg]="6"
+        [borrowRecord]="borrowRecord"
+        (bookReturned)="onBookReturned($event)"
+      />
+    } @empty {
+      <nz-empty nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg" />
     }
   </div>
 </div>

@@ -35,3 +35,98 @@ nz-icon {
 .ant-menu-title {
   border-radius: 10px;
 }
+
+.login-btn {
+  border-left: 5px solid red;
+  border-right: 5px solid red;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: 10px;
+  background-color: #021a20;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+
+.login-btn a nz-icon {
+  font-size: 20px;
+}
+/* Dropdown Trigger & Avatar */
+.user-profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.user-profile-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.avatar-icon {
+  background-color: #115362;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-arrow {
+  font-size: 12px !important;
+  color: #8c8c8c !important;
+  margin-right: 0 !important;
+}
+
+/* Dropdown Menu Popup Overlay Styling */
+::ng-deep .ant-dropdown {
+  padding-top: 6px;
+}
+
+.custom-dropdown-container {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.12),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  min-width: 180px;
+}
+
+.dropdown-menu-list {
+  background: #ffffff !important;
+  padding: 6px 0 !important;
+  border: none !important;
+}
+
+.dropdown-item {
+  display: flex !important;
+  align-items: center !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  padding: 0 16px !important;
+  font-size: 14px !important;
+  color: #262626 !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.dropdown-item .anticon {
+  font-size: 16px !important;
+  margin-right: 10px !important;
+  color: #595959 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5 !important;
+}
+
+/* Logout Item Highlights */
+.logout-item:hover {
+  background-color: #fff2f0 !important;
+  color: #ff4d4f !important;
+}
+
+.logout-item:hover .anticon {
+  color: #ff4d4f !important;
+}

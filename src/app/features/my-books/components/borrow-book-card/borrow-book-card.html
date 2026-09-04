@@ -1,11 +1,12 @@
 <div class="borrow-book-card">
   <nz-card nzHoverable>
-    <img nz-card-cover [src]="borrowBook().bookImage" [alt]="borrowBook().bookTitle" />
-    <nz-card-meta [nzTitle]="borrowBook().bookTitle" nzDescription="Brand new day bla bla" />
+    <img nz-card-cover [src]="borrowRecord().bookImage" [alt]="borrowRecord().bookTitle" />
+
+    <nz-card-meta [nzTitle]="borrowRecord().bookTitle" nzDescription="Brand new day bla bla" />
 
     <div class="borrow-info">
       <div class="status-section">
-        @switch (borrowBook().BorrowStatus) {
+        @switch (borrowRecord().status) {
           @case ('BORROWED') {
             <nz-tag nzColor="blue">Borrowed</nz-tag>
           }
@@ -22,31 +23,39 @@
         <div class="date-item">
           <span class="label">Borrowed Date</span>
           <span class="date">
-            {{ borrowBook().borrowDate }}
+            {{ borrowRecord().borrowDate }}
           </span>
         </div>
 
         <div class="date-item">
           <span class="label">Due Date</span>
           <span class="date">
-            {{ borrowBook().dueDate }}
+            {{ borrowRecord().dueDate }}
           </span>
         </div>
 
         <div class="date-item">
           <span class="label">Return Date</span>
           <span class="date">
-            {{ borrowBook().returnDate }}
+            {{ borrowRecord().returnedDate }}
           </span>
         </div>
       </div>
     </div>
 
     <div class="button-group">
-      <button nz-button nzType="primary" [routerLink]="['/read-online', borrowBook().bookId]">
+      <button nz-button nzType="primary" [routerLink]="['/read-online', borrowRecord().bookId]">
         Read Online
       </button>
-      <button nz-button nzType="link" nzDanger (click)="onReturnBook()">Return Book</button>
+      <button
+        nz-button
+        nzType="default"
+        nzDanger
+        [disabled]="borrowRecord().status === 'RETURNED'"
+        (click)="onReturnBook(borrowRecord().id)"
+      >
+        Return Book
+      </button>
     </div>
   </nz-card>
 </div>

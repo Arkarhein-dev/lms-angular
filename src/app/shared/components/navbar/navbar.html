@@ -1,14 +1,75 @@
 <nz-header class="nav">
   <a routerLink="/home" class="logo">Aka-Library</a>
   <ul nz-menu nzTheme="dark" nzModule="horizontal">
-    <li nz-menu-item nzSelected>
-      <a routerLink="/home"><nz-icon nzType="home" nzTheme="outline" />Home</a>
-    </li>
-    <li nz-menu-item>
-      <a routerLink="/my-books"> <nz-icon nzType="book" nzTheme="outline" />My-books </a>
-    </li>
-    <li nz-menu-item>
-      <a (click)="onLoginClick()"><nz-icon nzType="login" nzTheme="outline" />Login</a>
-    </li>
+    @if (!authService.isAdmin()) {
+      <li nz-menu-item nzSelected>
+        <a routerLink="/home"><nz-icon nzType="home" nzTheme="outline" />Home</a>
+      </li>
+
+      @if (authService.isLoggedIn()) {
+        <li nz-menu-item>
+          <a routerLink="/my-books"> <nz-icon nzType="book" nzTheme="outline" />My-books </a>
+        </li>
+      }
+    }
+
+    @if (authService.isLoggedIn() && authService.isAdmin()) {
+      <li nz-menu-item nzSelected>
+        <a routerLink="/admin/dashboard">
+          <nz-icon nzType="dashboard" nzTheme="outline" />Dashboard
+        </a>
+      </li>
+
+      <li nz-menu-item>
+        <a routerLink="/admin/user-management">
+          <nz-icon nzType="team" nzTheme="outline" />User Management
+        </a>
+      </li>
+    }
+
+    @if (!authService.isLoggedIn()) {
+      <li class="login-btn">
+        <a (click)="onLoginClick()"> <nz-icon nzType="login" nzTheme="outline" />Login </a>
+      </li>
+    } @else {
+      <!-- USER PROFILE DROPDOWN -->
+      <li class="profile-item">
+        <div
+          nz-dropdown
+          [nzDropdownMenu]="userMenu"
+          nzPlacement="bottomRight"
+          nzTrigger="click"
+          class="user-profile-trigger"
+        >
+          <nz-avatar [nzSize]="36" nzIcon="user" class="avatar-icon"></nz-avatar>
+          <nz-icon nzType="down" class="dropdown-arrow" />
+        </div>
+
+        <nz-dropdown-menu #userMenu="nzDropdownMenu">
+          <div class="custom-dropdown-container">
+            <ul nz-menu class="dropdown-menu-list">
+              @if (authService.isAdmin()) {
+                <li nz-menu-item class="dropdown-item">
+                  <nz-icon nzType="setting" nzTheme="outline" />
+                  <span>Admin Settings</span>
+                </li>
+              } @else {
+                <li nz-menu-item class="dropdown-item">
+                  <nz-icon nzType="user" nzTheme="outline" />
+                  <span>User Account</span>
+                </li>
+              }
+
+              <li nz-menu-divider></li>
+
+              <li nz-menu-item (click)="logout()" class="dropdown-item logout-item">
+                <nz-icon nzType="logout" nzTheme="outline" />
+                <span>Logout</span>
+              </li>
+            </ul>
+          </div>
+        </nz-dropdown-menu>
+      </li>
+    }
   </ul>
 </nz-header>

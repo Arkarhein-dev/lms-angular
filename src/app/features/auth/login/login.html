@@ -22,11 +22,11 @@
       <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <!-- Email -->
         <nz-form-item>
-          <nz-form-label nzRequired>Email</nz-form-label>
+          <nz-form-label nzRequired>UserName</nz-form-label>
 
           <nz-form-control nzErrorTip="Please enter a valid email address">
-            <nz-input-group nzPrefixIcon="mail">
-              <input nz-input type="email" placeholder="Enter your email" formControlName="email" />
+            <nz-input-group nzPrefixIcon="username">
+              <input nz-input type="text" placeholder="Enter Username" formControlName="username" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -69,13 +69,7 @@
         <div class="register-section">
           <span>Don't have an account?</span>
 
-          <a
-            nz-button
-            nzType="link"
-            (click)="register()"
-          >
-            Register here
-          </a>
+          <a nz-button nzType="link" (click)="register()"> Register here </a>
         </div>
       </form>
     </div>

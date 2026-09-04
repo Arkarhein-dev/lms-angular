@@ -16,6 +16,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { BookCard } from '../../components/book-card/book-card';
 import { BookService } from '../../../../core/services/book.service';
 import { Book } from '../../models/book.model';
+import { BorrowRecordService } from '../../../../core/services/borrow-record-service';
 
 @Component({
   standalone: true,
@@ -25,7 +26,9 @@ import { Book } from '../../models/book.model';
   templateUrl: './book-details.html',
 })
 export class BookDetails implements OnInit {
-  bookService = inject(BookService);
+  private bookService = inject(BookService);
+  private borrowRecordService = inject(BorrowRecordService);
+
   route = inject(Router);
 
   bookId = input<number, string | number>(undefined, {
@@ -33,6 +36,7 @@ export class BookDetails implements OnInit {
   });
 
   books = signal<Book[]>([]);
+
   isLoading = signal<boolean>(true);
 
   selectedBook = computed(() => this.books().find((book) => book.id === this.bookId()));
@@ -61,7 +65,14 @@ export class BookDetails implements OnInit {
     this.route.navigate(['/home']);
   }
 
-  onBorrowBook(): void {
-    this.onBackHome();
+  onBorrowBook(bookId: number) {
+    this.borrowRecordService.borrowBook(bookId).subscribe({
+      next: () => {
+        this.route.navigate(['/my-books']);
+      },
+      error: (err) => {
+        console.log('Failed to borrow book', err);
+      },
+    });
   }
 }

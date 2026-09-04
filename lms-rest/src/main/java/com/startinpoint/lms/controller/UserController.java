@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
+@CrossOrigin(value="http://localhost:4200")
 public class UserController {
   private final UserService userService;
   private final BorrowRecordService borrowRecordService;

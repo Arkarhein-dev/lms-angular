@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/books")
-@CrossOrigin("http://localhost:4200")
+//@CrossOrigin(value="http://localhost:4200")
 public class BookController {
     private final BookService bookService;
 

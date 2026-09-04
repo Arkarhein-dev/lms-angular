@@ -9,7 +9,8 @@
     <tr>
       <th nzWidth="80px">Id</th>
       <th nzWidth="100px">Book Image</th>
-      <th>Book Title</th> <!-- Left blank to take up the remaining fluid space -->
+      <th>Book Title</th>
+      <!-- Left blank to take up the remaining fluid space -->
       <th nzWidth="140px">Borrow Date</th>
       <th nzWidth="140px">Due Date</th>
       <th nzWidth="150px">Return Date</th>
@@ -18,16 +19,16 @@
   <tbody>
     @for (record of borrowRecords.data; track record.id) {
       <tr>
-        <td style="font-weight: 500; color: #8c8c8c;">#{{ record.id }}</td>
+        <td style="font-weight: 500; color: #8c8c8c">#{{ record.id }}</td>
         <td>
           <img [src]="record.bookImage" [alt]="record.bookTitle" class="book-image" />
         </td>
-        <td style="font-weight: 500;">{{ record.bookTitle }}</td>
+        <td style="font-weight: 500">{{ record.bookTitle }}</td>
         <td class="date-cell">{{ record.borrowDate }}</td>
         <td class="date-cell">{{ record.dueDate }}</td>
         <td>
-          @if (record.returnDate) {
-            <span class="date-cell">{{ record.returnDate }}</span>
+          @if (record.returnedDate) {
+            <span class="date-cell">{{ record.returnedDate }}</span>
           } @else {
             <!-- Renders a soft red badge if the book hasn't been returned yet -->
             <nz-tag nzColor="error">Not Returned</nz-tag>

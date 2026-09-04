@@ -1,10 +1,12 @@
-import { Component, signal,output } from '@angular/core';
+import { Component, signal, output, inject } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AuthService, LoginRequest } from '../../../core/services/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [
@@ -20,12 +22,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   templateUrl: './login.html',
 })
 export class Login {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   isLoginFormVisible = signal(false);
+  isLoading = signal(false);
   registerRequest = output<void>();
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.minLength(5)]),
   });
 
   showModal() {
@@ -38,19 +44,35 @@ export class Login {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-    } else {
-      console.log('Form is invalid');
+    if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+      return;
     }
-    this.isLoginFormVisible.set(false);
+
+    this.isLoading.set(true);
+    const credentials = this.loginForm.value as LoginRequest;
+    this.authService.login(credentials).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.isLoginFormVisible.set(false);
+        this.loginForm.reset();
+
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/my-books']);
+        }
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        console.error('Login Failed', err);
+      },
+    });
   }
 
-  register(){
+  register() {
     this.loginForm.reset();
     this.isLoginFormVisible.set(false);
     this.registerRequest.emit();
   }
-
 }

@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/borrow-records")
+@CrossOrigin(value="http://localhost:4200")
 public class BorrowRecordController {
   private final BorrowRecordService borrowRecordService;
   private final BookService bookService;
-
 
   @GetMapping
   public ResponseEntity<Page<BorrowRecordResponseDto>> getBorrowRecords(
@@ -33,7 +33,6 @@ public class BorrowRecordController {
     Authentication authentication
   ){
     String username = authentication.getName();
-//    System.out.println("username : "+ username);
 
     if (keyword != null && keyword.trim().isEmpty()){
       return ResponseEntity.ok(borrowRecordService.fetchBorrowRecordByKeyword(keyword,username,status,pageable));

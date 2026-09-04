@@ -1,6 +1,6 @@
 export type BorrowStatus = 'BORROWED' | 'RETURNED' | 'OVERDUE';
 
-export interface BorrowBook {
+export interface BorrowRecord {
   id: number;
   bookId: number;
   bookImage: string;
@@ -8,6 +8,14 @@ export interface BorrowBook {
   userId: number;
   borrowDate: string;
   dueDate: string;
-  returnDate: string;
-  BorrowStatus: BorrowStatus;
+  returnedDate: string;
+  status: BorrowStatus;
+}
+
+export interface BorrowRecordRequest {
+  bookId: number;
+}
+
+export interface BookReturnRequest {
+  recordId: number;
 }

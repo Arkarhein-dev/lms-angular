@@ -2,7 +2,6 @@ import { Component, computed, effect, input, numberAttribute } from '@angular/co
 import { User } from '../user.model';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { borrowBooks } from '../../../my-books/my-books';
-import { BorrowBook } from '../../../my-books/models/borrow-book.model';
 import { dummyUsers } from '../user-management';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzCardModule } from 'ng-zorro-antd/card';

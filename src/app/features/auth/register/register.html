@@ -1,39 +1,80 @@
 <nz-modal
-  nzTitle="Register Form"
+  nzTitle="Create an Account"
   [nzVisible]="isRegisterFormVisible()"
   [nzFooter]="null"
   [nzWidth]="420"
   (nzOnCancel)="cancelRegister()"
 >
-
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    <form nz-form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Username -->
+      <nz-form-item>
+        <nz-form-label nzRequired>Username</nz-form-label>
+        <nz-form-control nzErrorTip="Username is required">
+          <nz-input-group nzPrefixIcon="user">
+            <input nz-input type="text" placeholder="Enter Username" formControlName="username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Email -->
       <nz-form-item>
         <nz-form-label nzRequired>Email</nz-form-label>
         <nz-form-control nzErrorTip="Please enter a valid email address">
-          <input nz-input type="email" placeholder="Enter your email" formControlName="email" />
+          <nz-input-group nzPrefixIcon="mail">
+            <input nz-input type="email" placeholder="Enter your email" formControlName="email" />
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
+      <!-- Password -->
       <nz-form-item>
         <nz-form-label nzRequired>Password</nz-form-label>
-        <nz-form-control nzErrorTip="Password is required." >
-          <input nz-input type="password" placeholder="Enter Password" formControlName="password" />
+        <nz-form-control nzErrorTip="Password must be at least 5 characters">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              nz-input
+              type="password"
+              placeholder="Enter Password"
+              formControlName="password"
+            />
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
+      <!-- Confirm Password -->
       <nz-form-item>
         <nz-form-label nzRequired>Confirm Password</nz-form-label>
-        <nz-form-control nzErrorTip="Confirm password should be the same with with Password" >
-          <input nz-input type="password" placeholder="Enter Confirm Password" formControlName="passwordConfirm" />
+        <nz-form-control
+          [nzErrorTip]="
+            registerForm.hasError('passwordMismatch') &&
+            registerForm.get('passwordConfirm')?.touched
+              ? 'Passwords do not match'
+              : 'Please confirm your password'
+          "
+        >
+          <nz-input-group nzPrefixIcon="check-circle">
+            <input
+              nz-input
+              type="password"
+              placeholder="Confirm Password"
+              formControlName="passwordConfirm"
+            />
+          </nz-input-group>
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
-        <button nz-button nzType="primary" nzSize="large" nzBlock type="submit"[disabled]="registerForm.invalid" >Register</button>
-      </nz-form-item>
-
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        nzBlock
+        type="submit"
+        [nzLoading]="isLoading()"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
     </form>
   </ng-container>
-
 </nz-modal>

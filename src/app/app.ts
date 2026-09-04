@@ -7,7 +7,7 @@ import { Register } from './features/auth/register/register';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NzLayoutModule, Navbar, Login,Register],
+  imports: [RouterOutlet, NzLayoutModule, Navbar, Login, Register],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

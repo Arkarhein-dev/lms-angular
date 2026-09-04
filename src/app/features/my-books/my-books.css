@@ -21,3 +21,8 @@
 .book-grid {
   margin-top: 24px;
 }
+
+/* Empty state */
+nz-empty {
+  text-align: center;
+}

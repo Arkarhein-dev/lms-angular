@@ -1,8 +1,6 @@
 import { Component, computed, effect, input, numberAttribute } from '@angular/core';
-import { User } from '../user.model';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { borrowBooks } from '../../../my-books/my-books';
-import { dummyUsers } from '../user-management';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzCardModule } from 'ng-zorro-antd/card';
 
@@ -17,7 +15,7 @@ export class UserBorrowBooks {
     transform: numberAttribute,
   });
 
-  user = computed(() => dummyUsers.find((user) => user.id === this.userId()));
+  user = computed(() => users.find((user) => user.id === this.userId()));
 
   userBorrowBooks = computed(() =>
     borrowBooks.filter((borrowBook) => borrowBook.userId === this.userId()),

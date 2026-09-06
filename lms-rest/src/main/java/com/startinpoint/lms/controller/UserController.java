@@ -29,8 +29,8 @@ public class UserController {
     @PageableDefault(page = 0, size = 100, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     )
   {
-    Page<UserResponseDto> dtos = userService.getAllUsers(pageable);
-    return ResponseEntity.ok(dtos);
+    Page<UserResponseDto> users = userService.getAllUsers(pageable);
+    return ResponseEntity.ok(users);
   }
 
   @GetMapping("/{id}/borrow-records")

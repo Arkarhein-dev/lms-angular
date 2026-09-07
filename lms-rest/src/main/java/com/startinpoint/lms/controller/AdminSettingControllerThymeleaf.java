@@ -17,7 +17,7 @@
 //@Controller
 //@RequestMapping("/admin/settings")
 //@RequiredArgsConstructor
-//public class AdminSettingController {
+//public class AdminSettingControllerThymeleaf {
 //
 //    private final DynamicSchedulerService dynamicSchedulerService;
 //    private final QuartzSchedulerService quartzSchedulerService;

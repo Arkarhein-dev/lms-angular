@@ -8,7 +8,7 @@ import { UserManagement } from './features/admin/user-management/user-management
 import { UserBorrowBooks } from './features/admin/user-management/user-borrow-books/user-borrow-books';
 import { authGuard } from './core/auth/auth-guard';
 import { adminGuard } from './core/auth/admin-guard';
-// import { Login } from './auth/login/login';
+import { AdminSettings } from './features/admin/admin-settings/admin-settings';
 
 export const routes: Routes = [
   {
@@ -52,6 +52,11 @@ export const routes: Routes = [
   {
     path: 'admin/user/:userId/borrowed-books',
     component: UserBorrowBooks,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/admin-setting',
+    component: AdminSettings,
     canActivate: [adminGuard],
   },
   {

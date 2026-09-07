@@ -49,7 +49,7 @@ export class BookDetails implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bookService.getAllBooks().subscribe({
+    this.bookService.getBooks().subscribe({
       next: (response) => {
         this.books.set(response.content);
         this.isLoading.set(false);

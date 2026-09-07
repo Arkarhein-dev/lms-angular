@@ -10,14 +10,14 @@
   <nz-col [nzXs]="24" [nzMd]="8">
     <nz-card class="stat-card warning-border">
       <nz-icon class="borrow-book-icon" nzType="user" nzTheme="outline" />
-      <nz-statistic nzTitle="Total Users" [nzValue]="45" />
+      <nz-statistic nzTitle="Total Users" [nzValue]="users().length" />
     </nz-card>
   </nz-col>
 
   <nz-col [nzXs]="24" [nzMd]="8">
     <nz-card class="stat-card danger-border">
       <nz-icon class="borrow-book-icon" nzType="insert-row-above" nzTheme="outline" />
-      <nz-statistic nzTitle="Overdue Books" [nzValue]="5" />
+      <nz-statistic nzTitle="Overdue Books" [nzValue]="overduedBooks().length" />
     </nz-card>
   </nz-col>
 </nz-row>
@@ -30,6 +30,7 @@
     nzSpan="12"
     buttonName="Search Books"
     placeholderName="Search the book you want"
+    (searchSubmitted)="handleSearchSubmit($event)"
   />
   <div class="add-book-button" nz-col nzSpan="6">
     <button
@@ -45,14 +46,25 @@
   </div>
 </nz-row>
 
-<nz-table #bookData [nzData]="books()">
+<nz-table
+  #bookData
+  [nzData]="books()"
+  [nzLoading]="isLoading()"
+  [nzFrontPagination]="false"
+  [nzTotal]="totalElements()"
+  [nzPageIndex]="pageIndex()"
+  [nzPageSize]="pageSize()"
+  [nzPageSizeOptions]="[5, 10, 20, 50]"
+  [nzShowSizeChanger]
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
   <thead>
     <tr>
       <th>Book Image</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Genre</th>
-      <th>Stock</th>
+      <th nzColumnKey="title" [nzSortFn]="true">Title</th>
+      <th nzColumnKey="author" [nzSortFn]="true">Author</th>
+      <th nzColumnKey="genre" [nzSortFn]="true">Genre</th>
+      <th nzColumnKey="stock" [nzSortFn]="true">Stock</th>
       <th nzWidth="300px">Action</th>
     </tr>
   </thead>

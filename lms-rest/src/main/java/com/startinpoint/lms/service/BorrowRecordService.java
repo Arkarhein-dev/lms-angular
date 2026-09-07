@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +23,13 @@ public class BorrowRecordService {
     private final BorrowRecordMapper borrowRecordMapper;
     private final UserMapper userMapper;
 
+
+
+
     public Page<BorrowRecordResponseDto> getUserActiveBorrowRecords(
             String username, BorrowStatus status,
             Pageable pageable
-//            int page, int pageSize, String sortField, String sortDir
     ) {
-//        Pageable pageable = createPageable(page, pageSize, sortField, sortDir);
 
         if (status == null) {
             return borrowRecordRepository.findByUserUsername(username, pageable)
@@ -41,8 +43,6 @@ public class BorrowRecordService {
             String keyword, String username, BorrowStatus status,
             Pageable pageable
     ) {
-//        Pageable pageable = createPageable(page, size, sortField, sortDir);
-
         if (status == null) {
             return borrowRecordRepository.findBorrowBookBykeyword(username, keyword, pageable)
                     .map(borrowRecordMapper::toResponseDto);
@@ -51,11 +51,6 @@ public class BorrowRecordService {
                 .map(borrowRecordMapper::toResponseDto);
     }
 
-//    // Get All Users
-//    public Page<UserResponseDto> getAllUsers(int pageNo, int pageSize, String sortField, String sortDir) {
-//        Pageable pageable = createPageable(pageNo, pageSize, sortField, sortDir);
-//        return userRepository.findAll(pageable).map(userMapper::toResponseDto);
-//    }
 
     // Fetch borrow Record by User
     public Page<BorrowRecordResponseDto> fetchBorrowRecordByUser(
@@ -83,12 +78,8 @@ public class BorrowRecordService {
                 .map(borrowRecordMapper::toResponseDto);
     }
 
-    // Reusable Private Helper
-    private Pageable createPageable(int page, int size, String sortField, String sortDir) {
-        int pageIndex = (page < 1) ? 0 : page - 1;
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(sortField).ascending()
-                : Sort.by(sortField).descending();
-        return PageRequest.of(pageIndex, size, sort);
-    }
+
+  public Page<BorrowRecordResponseDto> getAllBorrowRecords(Pageable pageable) {
+      return borrowRecordRepository.findAll(pageable).map(borrowRecordMapper::toResponseDto);
+  }
 }

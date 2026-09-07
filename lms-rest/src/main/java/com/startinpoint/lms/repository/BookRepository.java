@@ -23,9 +23,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // 2. Available books WITH keyword
     @Query("""
         SELECT b FROM Book b
-        WHERE b.stock > 0 
+        WHERE b.stock > 0
         AND (
-            LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR 
+            LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
             LOWER(b.author) LIKE LOWER(CONCAT('%', :keyword, '%'))
         )
     """)
@@ -33,8 +33,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // 3. All books WITH keyword
     @Query("""
-        SELECT b FROM Book b WHERE 
-        LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR 
+        SELECT b FROM Book b WHERE
+        LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR
         LOWER(b.author) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)
     Page<Book> searchBookWithKeyword(@Param("keyword") String keyword, Pageable pageable);

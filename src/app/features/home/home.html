@@ -2,7 +2,11 @@
 <h3 class="sub-header">Your gateway to knowledge and culture. Accessible for everyone.</h3>
 
 <div class="search-box-container">
-  <app-search-box buttonName="Search Books" placeholderName="Search the book you want" />
+  <app-search-box
+    buttonName="Search Books"
+    placeholderName="Search the book you want"
+    (searchSubmitted)="handleSearchSubmitted($event)"
+  />
 </div>
 
 @if (isLoading()) {
@@ -30,7 +34,25 @@
         <app-book-card [book]="book" />
       }
     </div>
+    <div class="pagination-container">
+      <nz-pagination
+        class="pagination"
+        [nzPageIndex]="currentPage()"
+        [nzPageSize]="pageSize()"
+        [nzTotal]="totalElements()"
+        [nzPageSizeOptions]="[6, 12, 24, 48]"
+        [nzShowSizeChanger]
+        (nzPageIndexChange)="onPageIndexChange($event)"
+        (nzPageSizeChange)="onPageSizeChange($event)"
+      ></nz-pagination>
+    </div>
   } @else {
-    <p class="empty-msg">No books available in the library</p>
+    <p class="empty-msg">
+      @if (currentSearchTerm()) {
+        No books found matching "{{ currentSearchTerm() }}"
+      } @else {
+        No books available in the library
+      }
+    </p>
   }
 }

@@ -1,9 +1,10 @@
-<nz-input-search [nzEnterButton]="buttonName()" (nzSearch)="onSearch($event)">
+<nz-input-search [nzEnterButton]="buttonName()" (nzSearch)="onSearch()">
   <input
     nz-input
     nzSize="large"
     type="text"
-    [(ngModel)]="inputValue"
+    [ngModel]="inputValue()"
+    (ngModelChange)="inputValue.set($event)"
     [placeholder]="placeholderName()"
   />
 </nz-input-search>

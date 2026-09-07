@@ -6,126 +6,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { BorrowRecordService } from '../../core/services/borrow-record-service';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
-export const borrowBooks: BorrowRecord[] = [
-  {
-    id: 1,
-    bookId: 101,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcbUsRUHuWS2IZzq3R8UDIsOAPse3C5Wrk-aJENvbrM-nxYXI&s',
-    bookTitle: 'Spiderman No way home',
-    bookDescription: 'bla bla bla',
-    userId: 501,
-    borrowDate: '2026-08-15',
-    dueDate: '2026-08-28',
-    returnedDate: '',
-    status: 'OVERDUE',
-  },
-  {
-    id: 2,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzp8bPpqBWwdjzTlWXchN2xFJOnSqLaBfa3jQxD7DmFlvNe0vY&s',
-    bookTitle: 'Advanger: Infinity War',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '',
-    status: 'BORROWED',
-  },
-  {
-    id: 3,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw-LiMcYepihMzxZQCWFDZqe_qKvBEHZ9Noh9AlIdFk6KVZYs&s',
-    bookTitle: 'End Game',
-    bookDescription: 'bla bla bla',
-    userId: 103,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '',
-    status: 'BORROWED',
-  },
-  {
-    id: 4,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '',
-    status: 'BORROWED',
-  },
-  {
-    id: 5,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '2026-09-11',
-    status: 'RETURNED',
-  },
-  {
-    id: 6,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 104,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '2026-09-11',
-    status: 'RETURNED',
-  },
-  {
-    id: 7,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '2026-09-11',
-    status: 'RETURNED',
-  },
-  {
-    id: 8,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-11',
-    returnedDate: '2026-09-11',
-    status: 'RETURNED',
-  },
-  {
-    id: 9,
-    bookId: 102,
-    bookImage:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_q8bkJUxMYUDWw5nDEMxHcDt5UggrP701UmVIzyLssCmJhQM&s',
-    bookTitle: 'Spider man : Barnd new Day',
-    bookDescription: 'bla bla bla',
-    userId: 502,
-    borrowDate: '2026-08-28',
-    dueDate: '2026-09-05',
-    returnedDate: '2026-09-11',
-    status: 'RETURNED',
-  },
-];
-
 @Component({
   imports: [BookingSummary, BorrowBookCard, NzGridModule, NzEmptyModule],
   selector: 'app-my-books',
@@ -135,7 +15,7 @@ export const borrowBooks: BorrowRecord[] = [
 export class MyBooks implements OnInit {
   private borrowRecordService = inject(BorrowRecordService);
   private destroyRef = inject(DestroyRef);
-  private borrowRecordsSignal = signal<BorrowRecord[]>([]);
+  protected borrowRecordsSignal = signal<BorrowRecord[]>([]);
   borrowRecords = this.borrowRecordsSignal.asReadonly();
 
   isLoading = signal<boolean>(true);

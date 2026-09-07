@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { BorrowRecord } from './../../models/borrow-book.model';
+import { Component, computed, input } from '@angular/core';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -10,4 +11,18 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
   styleUrl: './booking-summary.css',
   templateUrl: './booking-summary.html',
 })
-export class BookingSummary {}
+export class BookingSummary {
+  borrowRecords = input<BorrowRecord[]>([]);
+
+  statusBorrowed = computed(() =>
+    this.borrowRecords().filter((borrowRecord) => borrowRecord.status === 'BORROWED'),
+  );
+
+  statusReturned = computed(() =>
+    this.borrowRecords().filter((borrowRecord) => borrowRecord.status === 'RETURNED'),
+  );
+
+  statusOverDue = computed(() =>
+    this.borrowRecords().filter((borrowRecord) => borrowRecord.status === 'OVERDUE'),
+  );
+}

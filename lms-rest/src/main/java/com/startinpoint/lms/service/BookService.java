@@ -35,29 +35,22 @@ public class BookService {
 	private final BookMapper bookMapper;
   private final BorrowRecordMapper borrowRecordMapper;
 
-	public Page<BookResponseDto> getAllBooks(Pageable pageable) {
+	public Page<BookResponseDto> getBooks(String keyword, boolean availableOnly, Pageable pageable) {
+    boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+
+   if (availableOnly){
+     if (hasKeyword){
+       return bookRepository.searchAvailableBooksWithKeyword(keyword,pageable).map(bookMapper::toBookResponse);
+     }
+     return bookRepository.findByStockGreaterThan(0,pageable).map(bookMapper::toBookResponse);
+   }
+
+    if (hasKeyword) {
+      return bookRepository.searchBookWithKeyword(keyword.trim(), pageable)
+        .map(bookMapper::toBookResponse);
+    }
+
 		return bookRepository.findAll(pageable).map(bookMapper::toBookResponse);
-	}
-
-	public Page<BookResponseDto> getAllBooksWithKeyword(int page, String keyword, int size, String sortField, String sortDir) {
-		int pageIndex = (page < 1) ? 0 : page - 1;
-		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
-				? Sort.by(sortField).ascending()
-				: Sort.by(sortField).descending();
-
-		Pageable pageable = PageRequest.of(pageIndex, size, sort);
-		return bookRepository.searchBookWithKeyword(keyword, pageable).map(bookMapper::toBookResponse);
-	}
-
-	// Search Books with By keyword
-	public Page<BookResponseDto> searchBook(String keyword,int pageNo, int pageSize, String sortField, String sortDir ){
-		int pageIndex = (pageNo < 1) ? 0 : pageNo - 1;
-		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
-				? Sort.by(sortField).ascending()
-				: Sort.by(sortField).descending();
-
-		Pageable pageable = PageRequest.of(pageIndex,pageSize,sort);
-		return bookRepository.searchBookWithKeyword(keyword, pageable).map(bookMapper::toBookResponse);
 	}
 
 	public BookResponseDto getBookById(long id) {

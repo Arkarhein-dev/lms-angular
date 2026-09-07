@@ -49,7 +49,7 @@
           <div class="custom-dropdown-container">
             <ul nz-menu class="dropdown-menu-list">
               @if (authService.isAdmin()) {
-                <li nz-menu-item class="dropdown-item">
+                <li nz-menu-item (click)="routeToAdminSetting()" class="dropdown-item">
                   <nz-icon nzType="setting" nzTheme="outline" />
                   <span>Admin Settings</span>
                 </li>

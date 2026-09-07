@@ -5,24 +5,31 @@
 /* --- Header Layout Styling --- */
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
   margin-bottom: 24px;
   padding-bottom: 12px;
   border-bottom: 1px solid #f0f0f0;
+}
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f1f1f;
+  margin: 0;
+}
 
-  h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1f1f1f;
-    margin: 0;
-  }
+nz-tag {
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  padding-left: 20px;
+}
 
-  nz-tag {
-    font-size: 13px;
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
+.left-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 /* --- Ant Design Table Customization --- */
@@ -64,4 +71,9 @@
   &:hover {
     transform: scale(1.08);
   }
+}
+
+.status-tag {
+  padding: 10px;
+  border-radius: 10px;
 }

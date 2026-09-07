@@ -1,157 +1,103 @@
-//package com.startinpoint.lms.controller;
-//
-//import com.startinpoint.lms.dto.request.BookCreateOrUpdateRequestDto;
-//import com.startinpoint.lms.dto.response.BookResponseDto;
-//import com.startinpoint.lms.dto.response.BorrowRecordResponseDto;
-//import com.startinpoint.lms.dto.response.UserResponseDto;
-//import com.startinpoint.lms.entity.BorrowRecord;
-//import com.startinpoint.lms.entity.BorrowStatus;
-//import com.startinpoint.lms.entity.User;
-//import com.startinpoint.lms.service.BorrowRecordService;
-//import com.startinpoint.lms.service.UserService;
-//import jakarta.validation.Valid;
-//import org.springframework.data.domain.Page;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//import com.startinpoint.lms.entity.Book;
-//import com.startinpoint.lms.service.BookService;
-//
-//import lombok.RequiredArgsConstructor;
-//
-//import java.util.List;
-//
-//@Controller
-//@RequiredArgsConstructor
-//@RequestMapping("/admin")
-//public class AdminController {
-//	private final BookService bookService;
-//	private final BorrowRecordService borrowRecordService;
-//	private final UserService userService;
-//
-//	@GetMapping("/dashboard")
-//	public String adminDashboard(
-//			@RequestParam(name = "keyword", required = false) String keyword,
-//			@RequestParam(name = "page", defaultValue = "1") int page,
-//			@RequestParam(name = "size", defaultValue = "6") int size,
-//			@RequestParam(name = "sortField", defaultValue = "title") String sortField,
-//			@RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
-//			Model model
-//	) {
-//		Page<BookResponseDto> bookPage;
-//
-//		if (keyword != null && !keyword.trim().isEmpty()) {
-//			bookPage = bookService.getAllBooksWithKeyword(page, keyword.trim(), size, sortField, sortDir);
-//		} else {
-//			bookPage = bookService.getAllBooks(page, size, sortField, sortDir);
-//		}
-//
-//		model.addAttribute("baseUrl", "/admin/dashboard");
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("books", bookPage.getContent());
-//		model.addAttribute("currentPage", page);
-//		model.addAttribute("pageSize", size);
-//		model.addAttribute("sortField", sortField);
-//		model.addAttribute("sortDir", sortDir);
-//		model.addAttribute("totalPages", bookPage.getTotalPages());
-//		model.addAttribute("totalItems", bookPage.getTotalElements());
-//		model.addAttribute("reverseSortDir", sortDir.equalsIgnoreCase("asc") ? "desc" : "asc");
-//
-//		return "book/admin/dashboard";
-//	}
-//
-//	@GetMapping("/books/new")
-//	public String showCreateForm(Model model) {
-//		model.addAttribute("book", new Book());
-//		return "book/admin/book-form";
-//	}
-//
-//	@PostMapping("/books/save")
-//	public String saveBook(@Valid @ModelAttribute("book") BookCreateOrUpdateRequestDto dto) {
-//		bookService.saveOrUpdateBook(dto);
-//		return "redirect:/admin/dashboard";
-//	}
-//
-//	@GetMapping("/books/edit/{id}")
-//	public String showEditForm(@PathVariable("id") Long id, Model model) {
-//		BookResponseDto existingBook = bookService.getBookById(id);
-//		model.addAttribute("book",existingBook);
-//		return "book/admin/book-form";
-//	}
-//
-//	@PostMapping("/books/delete/{id}")
-//	public String deleteBook(@PathVariable("id") Long id) {
-//		bookService.deleteBook(id);
-//		return "redirect:/admin/dashboard";
-//	}
-//
-//
-//	@GetMapping("/user-lists")
-//	public String getAllUsers(
-//			@RequestParam(name = "page", defaultValue = "1") int page,
-//			@RequestParam(name = "size", defaultValue = "6") int pageSize,
-//			@RequestParam(name = "sortField", defaultValue = "username") String sortField,
-//			@RequestParam(name = "sortDir", defaultValue = "asc") String sortDir,
-//			Model model) {
-//
-//		// Service call passing 'page' (1-indexed)
-//		Page<UserResponseDto> userPage = borrowRecordService.getAllUsers(page, pageSize, sortField, sortDir);
-//
-//		model.addAttribute("users", userPage.getContent());
-//		model.addAttribute("currentPage", page);
-//		model.addAttribute("pageSize", pageSize);
-//		model.addAttribute("sortField", sortField);
-//		model.addAttribute("sortDir", sortDir);
-//		model.addAttribute("totalPages", userPage.getTotalPages());
-//		model.addAttribute("totalItems", userPage.getTotalElements());
-//		model.addAttribute("reverseSortDir", sortDir.equalsIgnoreCase("asc") ? "desc" : "asc");
-//
-//		return "book/admin/user-lists";
-//	}
-//
-//
-//	@GetMapping("/users/{userId}/borrowed")
-//	public String fetchBorrowRecordsByUser(
-//			@PathVariable("userId") Long userId,
-//			@RequestParam(value = "keyword", required = false) String keyword,
-//			@RequestParam(name = "status", required = false) BorrowStatus status,
-//			@RequestParam(name = "page", defaultValue = "1") int page,
-//			@RequestParam(name = "size", defaultValue = "6") int pageSize,
-//			@RequestParam(name = "sortField", defaultValue = "borrowDate") String sortField,
-//			@RequestParam(name = "sortDir", defaultValue = "desc") String sortDir,
-//			Model model
-//	){
-//		// Use UserResponseDto or map entity to DTO if getUser returns an entity
-//		UserResponseDto userDto = userService.getUser(userId);
-//
-//		Page<BorrowRecordResponseDto> borrowRecordsPage;
-//		if (keyword != null && !keyword.trim().isEmpty()){
-//			borrowRecordsPage = borrowRecordService.fetchBorrowRecordByUserWithKeyword(
-//					userId, keyword.trim(), status, page, pageSize, sortField, sortDir
-//			);
-//		} else {
-//			borrowRecordsPage = borrowRecordService.fetchBorrowRecordByUser(
-//					userId, status, page, pageSize, sortField, sortDir
-//			);
-//		}
-//
-//		model.addAttribute("baseUrl", "/admin/users/" + userId + "/borrowed");
-//		model.addAttribute("user", userDto);
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("borrowRecords", borrowRecordsPage.getContent());
-//		model.addAttribute("selectedStatus", status);
-//		model.addAttribute("allStatuses", BorrowStatus.values());
-//
-//		model.addAttribute("currentPage", page);
-//		model.addAttribute("pageSize", pageSize);
-//		model.addAttribute("sortField", sortField);
-//		model.addAttribute("sortDir", sortDir);
-//		model.addAttribute("totalPages", borrowRecordsPage.getTotalPages());
-//		model.addAttribute("totalItems", borrowRecordsPage.getTotalElements());
-//		model.addAttribute("reverseSortDir", sortDir.equalsIgnoreCase("asc") ? "desc" : "asc");
-//
-//		return "book/admin/user-borrow-lists";
-//	}
-//
-//}
+package com.startinpoint.lms.controller;
+
+import com.startinpoint.lms.dto.SchedulerConfigDto;
+import com.startinpoint.lms.dto.StockOutAlertConfigDto;
+import com.startinpoint.lms.service.QuartzSchedulerService;
+import com.startinpoint.lms.service.StockOutEmailTriggerService;
+import lombok.RequiredArgsConstructor;
+import org.quartz.SchedulerException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/admin/settings")
+@RequiredArgsConstructor
+public class AdminController {
+
+  private final QuartzSchedulerService quartzSchedulerService;
+  private final StockOutEmailTriggerService stockOutEmailTriggerService;
+
+  // --- Overdue Scheduler Endpoints ---
+
+  @GetMapping("/borrow-overdue-scheduler")
+  public ResponseEntity<SchedulerConfigDto> getBorrowOverdueSchedulerConfig() {
+    SchedulerConfigDto config = quartzSchedulerService.getOverdueJobConfig();
+    return ResponseEntity.ok(config);
+  }
+
+  @PostMapping("/save-borrow-overdue-scheduler")
+  public ResponseEntity<Map<String, String>> saveBorrowOverdueScheduler(
+    @RequestParam(value = "enabled", defaultValue = "false") boolean enabled,
+    @RequestParam("time") String time // Accepts "HH:mm"
+  ) {
+    try {
+      String[] timeParts = time.split(":");
+      String hour = timeParts[0];
+      String minute = timeParts[1];
+
+      // Format into Quartz cron: "0 mm HH * * ?"
+      String cronExpression = String.format("0 %s %s * * ?", minute, hour);
+
+      quartzSchedulerService.updateOverdueScheduler(enabled, cronExpression);
+      return ResponseEntity.ok(Map.of(
+        "message", "Quartz overdue configuration updated successfully to " + time + "!"
+      ));
+    } catch (SchedulerException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+        "error", "Failed to update Quartz schedule: " + e.getMessage()
+      ));
+    }
+  }
+
+  @PostMapping("/trigger-overdue-check")
+  public ResponseEntity<Map<String, String>> triggerOverdueCheckNow() {
+    try {
+      quartzSchedulerService.triggerJobNow();
+      return ResponseEntity.ok(Map.of("message", "Quartz overdue alert job triggered immediately!"));
+    } catch (SchedulerException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+        "error", "Failed to trigger Quartz job now: " + e.getMessage()
+      ));
+    }
+  }
+
+  // --- Admin Email Alert Endpoints ---
+
+  @GetMapping("/stock-out-alert")
+  public ResponseEntity<StockOutAlertConfigDto> getStockOutAlertConfig() {
+    StockOutAlertConfigDto config = stockOutEmailTriggerService.getCurrentConfig();
+    return ResponseEntity.ok(config);
+  }
+
+  @PostMapping("/stock-out-schedule")
+  public ResponseEntity<Map<String, String>> updateStockOutSchedule(
+    @RequestBody StockOutAlertConfigDto config
+  ) {
+    try {
+      stockOutEmailTriggerService.updateStockOutSchedule(config);
+      return ResponseEntity.ok(Map.of("message", "Stock Out email schedule updated successfully."));
+    } catch (SchedulerException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+        "error", "Failed to update stock out email schedule: " + e.getMessage()
+      ));
+    }
+  }
+
+  @PostMapping("/toggle-stock-out-alert")
+  public ResponseEntity<Map<String, String>> toggleStockOutAlert(
+    @RequestParam(value = "enabled", defaultValue = "false") Boolean enabled
+  ) {
+    try {
+      stockOutEmailTriggerService.toggleAlertTrigger(enabled);
+      String status = enabled ? "activated" : "paused";
+      return ResponseEntity.ok(Map.of("message", "Stock out alert trigger " + status + " successfully."));
+    } catch (SchedulerException | IllegalStateException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+        "error", "Error while toggling stock out alert: " + e.getMessage()
+      ));
+    }
+  }
+}

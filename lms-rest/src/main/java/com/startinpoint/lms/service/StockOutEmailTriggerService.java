@@ -50,7 +50,9 @@ public class StockOutEmailTriggerService {
                     .withSchedule(scheduleBuilder)
                     .build();
 
-            Boolean wasPaused = false;
+            boolean wasPaused = scheduler.checkExists(triggerKey)
+              && scheduler.getTriggerState(triggerKey) == Trigger.TriggerState.PAUSED;
+
             if(scheduler.checkExists(jobKey)){
                 scheduler.addJob(jobDetail,true);
             }else{

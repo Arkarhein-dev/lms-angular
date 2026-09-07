@@ -25,6 +25,13 @@ public class BorrowRecordController {
   private final BorrowRecordService borrowRecordService;
   private final BookService bookService;
 
+  @GetMapping("/all")
+  public ResponseEntity<Page<BorrowRecordResponseDto>> getAllBorrowRecords(
+    @PageableDefault(page=0, size=100, sort = "id", direction = Sort.Direction.ASC)Pageable pageable
+  ){
+    return ResponseEntity.ok(borrowRecordService.getAllBorrowRecords(pageable));
+  }
+
   @GetMapping
   public ResponseEntity<Page<BorrowRecordResponseDto>> getBorrowRecords(
     @PageableDefault(page=0, size=100, sort = "id", direction = Sort.Direction.ASC)Pageable pageable,
@@ -34,10 +41,19 @@ public class BorrowRecordController {
   ){
     String username = authentication.getName();
 
-    if (keyword != null && keyword.trim().isEmpty()){
+    if (keyword != null && !keyword.trim().isEmpty()){
       return ResponseEntity.ok(borrowRecordService.fetchBorrowRecordByKeyword(keyword,username,status,pageable));
     }
     return ResponseEntity.ok(borrowRecordService.getUserActiveBorrowRecords(username,status,pageable));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Page<BorrowRecordResponseDto>> getBorrowRecordsByUser(
+    @PathVariable("id") Long id,
+    @RequestParam(value = "status", required = false)BorrowStatus status,
+    @PageableDefault(page=0, size=100, sort = "id", direction = Sort.Direction.ASC)Pageable pageable
+  ){
+    return ResponseEntity.ok(borrowRecordService.fetchBorrowRecordByUser(id,status,pageable));
   }
 
   @PostMapping("/borrow-book")

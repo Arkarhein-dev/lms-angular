@@ -1,29 +1,52 @@
 <div class="header-container">
-  <h1>User Borrow History</h1>
-  <nz-tag [nzColor]="'blue'" [nzMode]="'default'">User ID: {{ userId() }}</nz-tag>
+  <div class="left-header">
+    <h1>User Borrow History</h1>
+    <nz-tag [nzColor]="'blue'" [nzMode]="'default'">User ID: {{ userId() }}</nz-tag>
+  </div>
+  <div class="right-back-button">
+    <a [routerLink]="['/admin/user-management']" nz-button nzType="primary">
+      <nz-icon nzType="double-left" nzTheme="outline" />Back to User Management
+    </a>
+  </div>
 </div>
 
-<!-- Added the 'history-table' class and default compact size -->
-<nz-table #borrowRecords [nzData]="userBorrowBooks()" class="history-table" nzSize="middle">
+<nz-table #basicTable [nzData]="borrowRecords()" class="history-table" nzSize="middle">
   <thead>
     <tr>
       <th nzWidth="80px">Id</th>
       <th nzWidth="100px">Book Image</th>
       <th>Book Title</th>
       <!-- Left blank to take up the remaining fluid space -->
+      <th nzWidth="140px">Borrow Status</th>
       <th nzWidth="140px">Borrow Date</th>
       <th nzWidth="140px">Due Date</th>
       <th nzWidth="150px">Return Date</th>
     </tr>
   </thead>
   <tbody>
-    @for (record of borrowRecords.data; track record.id) {
+    @for (record of basicTable.data; track record.id) {
       <tr>
         <td style="font-weight: 500; color: #8c8c8c">#{{ record.id }}</td>
         <td>
           <img [src]="record.bookImage" [alt]="record.bookTitle" class="book-image" />
         </td>
         <td style="font-weight: 500">{{ record.bookTitle }}</td>
+        <td>
+          <nz-tag class="status-tag"
+            [nzColor]="
+              record.status === 'OVERDUE' ? 'red' : record.status === 'RETURNED' ? 'orange' : 'blue'
+            "
+          >
+            @if (record.status === 'BORROWED') {
+              <nz-icon nzType="export" nzTheme="outline" />
+            } @else if (record.status === 'RETURNED') {
+              <nz-icon nzType="import" nzTheme="outline" />
+            } @else {
+              <nz-icon nzType="warning" nzTheme="outline" />
+            }
+            <span> {{ record.status }} </span>
+          </nz-tag>
+        </td>
         <td class="date-cell">{{ record.borrowDate }}</td>
         <td class="date-cell">{{ record.dueDate }}</td>
         <td>

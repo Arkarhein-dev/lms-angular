@@ -60,7 +60,7 @@ export class Login {
         if (this.authService.isAdmin()) {
           this.router.navigate(['/admin/dashboard']);
         } else {
-          this.router.navigate(['/my-books']);
+          this.router.navigate(['/home']);
         }
       },
       error: (err) => {

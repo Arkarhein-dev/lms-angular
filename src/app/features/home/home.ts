@@ -6,43 +6,64 @@ import { BookService } from '../../core/services/book.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @Component({
-  imports: [BookCard, SearchBox, NzSpinModule, NzAlertModule, NzButtonModule],
+  imports: [BookCard, SearchBox, NzSpinModule, NzAlertModule, NzButtonModule, NzPaginationModule],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
 export class Home implements OnInit {
   private bookService = inject(BookService);
+
   private booksSignal = signal<Book[]>([]);
   books = this.booksSignal.asReadonly();
+
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
+
+  currentPage = signal<number>(1);
+  pageSize = signal<number>(10);
+  totalElements = signal<number>(0);
+  currentSearchTerm = signal<string>('');
 
   ngOnInit(): void {
     this.fetchBooks();
   }
 
-  fetchBooks(): void {
+  fetchBooks(page: number = this.currentPage(), keyword: string = this.currentSearchTerm()): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
+    this.currentSearchTerm.set(keyword);
 
-    this.bookService.getAllBooks().subscribe({
-      next: (books) => {
-        this.booksSignal.set(books.content);
+    const pageIndex = page - 1;
+
+    this.bookService.getBooks(pageIndex, this.pageSize(), keyword).subscribe({
+      next: (response) => {
+        this.booksSignal.set(response.content);
+        this.totalElements.set(response.totalElements);
+        this.currentPage.set(page);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.log('Error Fetching Books', err.message);
+        console.error('Error Fetching Books', err.message);
         this.errorMessage.set('Failed to fetch Books. Please check your internet connection.');
         this.isLoading.set(false);
       },
-      complete: () => console.log('Book Fetching Completed'),
     });
   }
 
-  handleSearchSubmitted(searchTerm: string) {
-    console.log('Search Term: ', searchTerm);
+  handleSearchSubmitted(searchTerm: string): void {
+    this.fetchBooks(1, searchTerm);
+  }
+
+  onPageIndexChange(pageIndex: number) {
+    this.fetchBooks(pageIndex);
+  }
+
+  onPageSizeChange(pageSize: number) {
+    this.pageSize.set(pageSize);
+    this.fetchBooks(1);
   }
 }

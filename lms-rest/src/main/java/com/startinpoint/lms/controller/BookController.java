@@ -27,9 +27,11 @@ public class BookController {
     // localhost:8081/library/api/v1/books
     @GetMapping
     public ResponseEntity<Page<BookResponseDto>> getAllBooks(
+            @RequestParam(value = "keyword",required = false) String keyword,
+            @RequestParam(value = "availableOnly",required = false, defaultValue = "false") boolean availableOnly,
             @PageableDefault(page=0, size=100, sort = "id", direction = Sort.Direction.ASC)Pageable pageable
             ){
-        return ResponseEntity.ok(bookService.getAllBooks(pageable));
+        return ResponseEntity.ok(bookService.getBooks(keyword,availableOnly,pageable));
     }
 
     @GetMapping("/{id}")

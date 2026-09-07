@@ -9,14 +9,14 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   templateUrl: './search-box.html',
 })
 export class SearchBox {
-  readonly inputValue = signal('');
+  inputValue = signal('');
   buttonName = input.required<string>();
   placeholderName = input.required<string>();
 
   searchSubmitted = output<string>();
 
-  onSearch(event: any) {
-    this.searchSubmitted.emit(this.inputValue());
-    this.inputValue.set('');
+  onSearch() {
+    const term = this.inputValue().trim();
+    this.searchSubmitted.emit(term);
   }
 }

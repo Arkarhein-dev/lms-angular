@@ -70,7 +70,7 @@ export class Register {
         this.registerForm.reset();
 
         // Default navigate to my-books after registering as USER
-        this.router.navigate(['/my-books']);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.isLoading.set(false);

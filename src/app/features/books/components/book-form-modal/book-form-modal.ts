@@ -52,7 +52,7 @@ export class BookFormModal {
     }),
     description: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(20), Validators.maxLength(1000)],
+      validators: [Validators.required, Validators.minLength(20), Validators.maxLength(100000)],
     }),
   });
 

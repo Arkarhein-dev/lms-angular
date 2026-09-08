@@ -17,43 +17,52 @@ export interface StockOutAlertConfigDto {
 @Service()
 export class AdminSettingService {
   private httpClient = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8081/library/api/v1/admin/settings';
+  private baseUrl = 'http://localhost:8081/library/api/v1/admin/settings';
 
-  // Overdue Scheduler APIs
+  // --- Overdue Scheduler APIs ---
+
+  // get borrow overdue scheduler config
   getOverdueSchedulerConfig(): Observable<SchedulerConfigDto> {
     return this.httpClient.get<SchedulerConfigDto>(`${this.baseUrl}/borrow-overdue-scheduler`);
   }
 
+  // update borrow overdue scheduler
   saveOverdueScheduler(enabled: boolean, time: string): Observable<{ message: string }> {
     const params = new HttpParams().set('enabled', enabled).set('time', time);
-    return this.httpClient.post<{ message: string }>(
-      `${this.baseUrl}/save-borrow-overdue-scheduler`,
+    return this.httpClient.put<{ message: string }>(
+      `${this.baseUrl}/borrow-overdue-scheduler`,
       null,
       { params },
     );
   }
 
+  // Trigger overdue check job immediately
   triggerOverdueCheckNow(): Observable<{ message: string }> {
-    return this.httpClient.post<{ message: string }>(`${this.baseUrl}/trigger-overdue-check`, {});
+    return this.httpClient.post<{ message: string }>(
+      `${this.baseUrl}/borrow-overdue-scheduler/trigger`,
+      {},
+    );
   }
 
-  // Stock Out Alert APIs
+  // --- Stock Out Alert APIs ---
+
+  // Get Stock out alert config for admin
   getStockOutAlertConfig(): Observable<StockOutAlertConfigDto> {
     return this.httpClient.get<StockOutAlertConfigDto>(`${this.baseUrl}/stock-out-alert`);
   }
 
+  // Update Stock out schedule of admin
   updateStockOutSchedule(config: StockOutAlertConfigDto): Observable<{ message: string }> {
-    return this.httpClient.post<{ message: string }>(`${this.baseUrl}/stock-out-schedule`, config);
+    return this.httpClient.put<{ message: string }>(`${this.baseUrl}/stock-out-alert`, config);
   }
 
+  // Toggle Stock out Alert trigger status
   toggleStockOutAlert(enabled: boolean): Observable<{ message: string }> {
     const params = new HttpParams().set('enabled', enabled);
-    return this.httpClient.post<{ message: string }>(
-      `${this.baseUrl}/toggle-stock-out-alert`,
+    return this.httpClient.patch<{ message: string }>(
+      `${this.baseUrl}/stock-out-alert/status`,
       null,
-      {
-        params,
-      },
+      { params },
     );
   }
 }

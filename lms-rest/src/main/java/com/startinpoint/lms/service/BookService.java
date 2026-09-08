@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import com.startinpoint.lms.dto.request.BookCreateOrUpdateRequestDto;
 import com.startinpoint.lms.dto.response.BookResponseDto;
 import com.startinpoint.lms.dto.response.BorrowRecordResponseDto;
+import com.startinpoint.lms.exception.BadRequestException;
+import com.startinpoint.lms.exception.ResourceNotFoundException;
 import com.startinpoint.lms.mapper.BookMapper;
 import com.startinpoint.lms.mapper.BorrowRecordMapper;
 import org.springframework.data.domain.Page;
@@ -108,28 +110,34 @@ public BookResponseDto saveOrUpdateBook(Long id, BookCreateOrUpdateRequestDto dt
   }
 
 	public void deleteBook(Long id) {
+    if(!bookRepository.existsById(id)){
+      throw new ResourceNotFoundException("Book Not found with ID : "+id);
+    }
+    if(borrowRecordRepository.existsByBookId(id)){
+      throw new BadRequestException("You can't perform this operation because the users have borrowed this book.");
+    }
 		bookRepository.deleteById(id);
 	}
 
 	@Transactional
 	public BorrowRecordResponseDto borrowBook(Long bookId, String username, int borrowDays) {
-		Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not found..."));
+		Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book Not found..."));
 		if(borrowDays < 1 || borrowDays >14){
-			throw new IllegalArgumentException("Borrow Durations Must be Between 1 and 14 days");
+			throw new BadRequestException("Borrow Durations Must be Between 1 and 14 days");
 		}
 
 		if(!book.isAvailable() || book.getStock() <=0) {
 			emailService.sendOutOfStockNotificationToAdmin(book.getTitle(),book.getId(),username);
-			throw new IllegalArgumentException("Sry, this book is out of stock.");
+			throw new BadRequestException("Sry, this book is out of stock.");
 		}
 
 		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new IllegalArgumentException("User Not Found with name "+username));
+				.orElseThrow(() -> new ResourceNotFoundException("User Not Found with name "+username));
 
 		boolean isBorrowed = borrowRecordRepository.existsByBookIdAndUserUsernameAndStatus(bookId, username, BorrowStatus.BORROWED);
 
 		if(isBorrowed) {
-			throw new IllegalArgumentException("Book is already borrowed...");
+			throw new BadRequestException("Book is already borrowed...");
 		}
 
 		BorrowRecord borrowRecord = new BorrowRecord();
@@ -151,10 +159,10 @@ public BookResponseDto saveOrUpdateBook(Long id, BookCreateOrUpdateRequestDto dt
 	@Transactional
 	public BorrowRecordResponseDto returnBook(Long recordId) {
 		BorrowRecord record = borrowRecordRepository.findById(recordId)
-				.orElseThrow(() -> new IllegalArgumentException("Record Not Found with id "+recordId));
+				.orElseThrow(() -> new ResourceNotFoundException("Record Not Found with id "+recordId));
 
 		if(record.getStatus()==BorrowStatus.RETURNED) {
-			throw new IllegalArgumentException("Book is already Returned...");
+			throw new BadRequestException("Book is already Returned...");
 		}
 
 		record.setReturnedDate(LocalDate.now());

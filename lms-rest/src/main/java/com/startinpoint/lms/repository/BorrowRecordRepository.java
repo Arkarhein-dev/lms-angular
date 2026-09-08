@@ -24,6 +24,8 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
     @EntityGraph(attributePaths = {"book"})
     Page<BorrowRecord> findByUserUsername(String username, Pageable pageable);
 
+
+
     boolean existsByBookIdAndUserUsernameAndStatus(Long bookId, String username, BorrowStatus status);
 
     @EntityGraph(attributePaths = {"user", "book"})
@@ -118,4 +120,10 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
     and br.dueDate < CURRENT_DATE
 """)
     int updateOverdueStatusesOnStartUp();
+
+
+  boolean existsByBookId(Long bookId);
+
+  boolean existsByBookIdAndReturnedDateIsNull(Long id);
+
 }

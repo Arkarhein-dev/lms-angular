@@ -95,6 +95,7 @@ nz-icon {
 }
 
 .dropdown-menu-list {
+  display: flex;
   background: #ffffff !important;
   padding: 6px 0 !important;
   border: none !important;

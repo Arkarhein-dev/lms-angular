@@ -25,11 +25,13 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin-settings',
   standalone: true,
   imports: [
+    RouterLink,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -69,7 +71,7 @@ export class AdminSettings implements OnInit {
   private initForms(): void {
     this.overdueForm = this.fb.group({
       enabled: [false],
-      time: ['00:00', Validators.required],
+      time: [null, Validators.required], // Set initial time to null for Date object
     });
 
     this.stockOutForm = this.fb.group({
@@ -86,13 +88,13 @@ export class AdminSettings implements OnInit {
     // Load Overdue Job Settings
     this.settingsService.getOverdueSchedulerConfig().subscribe({
       next: (config: SchedulerConfigDto) => {
-        const parsedTime = this.parseCronToTime(config.cronExpression);
+        const timeDate = this.parseCronToDate(config.cronExpression);
         this.overdueForm.patchValue({
           enabled: config.enabled,
-          time: parsedTime,
+          time: timeDate,
         });
       },
-      error: (err) => this.showError('Failed to load overdue settings'),
+      error: () => this.showError('Failed to load overdue settings'),
     });
 
     // Load Stock Out Alert Settings
@@ -101,7 +103,7 @@ export class AdminSettings implements OnInit {
         this.stockOutForm.patchValue(config);
         this.isLoading = false;
       },
-      error: (err) => {
+      error: () => {
         this.showError('Failed to load stock out alert settings');
         this.isLoading = false;
       },
@@ -112,7 +114,10 @@ export class AdminSettings implements OnInit {
     if (this.overdueForm.invalid) return;
     const { enabled, time } = this.overdueForm.value;
 
-    this.settingsService.saveOverdueScheduler(enabled, time).subscribe({
+    // Format Date object back to "HH:mm" string for the service
+    const formattedTime = this.formatDateToHHmm(time);
+
+    this.settingsService.saveOverdueScheduler(enabled, formattedTime).subscribe({
       next: (res) => this.showSuccess(res.message),
       error: (err) => this.showError(err.error?.error || 'Failed to update overdue schedule'),
     });
@@ -134,8 +139,8 @@ export class AdminSettings implements OnInit {
     });
   }
 
-  onToggleStockOutAlert(event: Event): void {
-    const isChecked = (event.target as HTMLInputElement).checked;
+  // Accepts boolean direct value emitted by nz-switch
+  onToggleStockOutAlert(isChecked: boolean): void {
     this.settingsService.toggleStockOutAlert(isChecked).subscribe({
       next: (res) => {
         this.stockOutForm.patchValue({ enabled: isChecked });
@@ -149,15 +154,31 @@ export class AdminSettings implements OnInit {
     });
   }
 
-  private parseCronToTime(cron: string): string {
-    if (!cron) return '00:00';
+  // Converts cron to JS Date object for nz-time-picker
+  private parseCronToDate(cron: string): Date {
+    const defaultDate = new Date();
+    defaultDate.setHours(0, 0, 0, 0);
+
+    if (!cron) return defaultDate;
+
     const parts = cron.split(' ');
     if (parts.length >= 3) {
-      const minute = parts[1].padStart(2, '0');
-      const hour = parts[2].padStart(2, '0');
-      return `${hour}:${minute}`;
+      const minute = parseInt(parts[1], 10) || 0;
+      const hour = parseInt(parts[2], 10) || 0;
+
+      const date = new Date();
+      date.setHours(hour, minute, 0, 0);
+      return date;
     }
-    return '00:00';
+    return defaultDate;
+  }
+
+  // Helper to format Date object into "HH:mm"
+  private formatDateToHHmm(date: Date): string {
+    if (!date) return '00:00';
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
   }
 
   private showSuccess(msg: string): void {

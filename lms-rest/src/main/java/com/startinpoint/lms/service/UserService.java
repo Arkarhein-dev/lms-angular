@@ -2,6 +2,7 @@ package com.startinpoint.lms.service;
 
 import com.startinpoint.lms.dto.response.UserResponseDto;
 import com.startinpoint.lms.entity.User;
+import com.startinpoint.lms.exception.ResourceNotFoundException;
 import com.startinpoint.lms.mapper.UserMapper;
 import com.startinpoint.lms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,6 @@ public class UserService {
     }
 
     public UserResponseDto getUserById(Long userId){
-      return userMapper.toResponseDto(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found.")));
+      return userMapper.toResponseDto(userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found.")));
     }
 }

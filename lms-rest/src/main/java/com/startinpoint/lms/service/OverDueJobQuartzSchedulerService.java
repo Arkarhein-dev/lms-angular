@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class QuartzSchedulerService {
-    private static final Logger log = LoggerFactory.getLogger(QuartzSchedulerService.class);
+public class OverDueJobQuartzSchedulerService {
+    private static final Logger log = LoggerFactory.getLogger(OverDueJobQuartzSchedulerService.class);
     private final Scheduler scheduler;
 
     public static final String JOB_KEY = "borrowOverdueJob";

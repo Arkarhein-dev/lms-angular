@@ -1,5 +1,8 @@
 <nz-header class="nav">
-  <a routerLink="/home" class="logo">Aka-Library</a>
+  <a [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/home'" class="logo">
+    Aka-Library
+  </a>
+
   <ul nz-menu nzTheme="dark" nzModule="horizontal">
     @if (!authService.isAdmin()) {
       <li nz-menu-item nzSelected>

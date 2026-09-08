@@ -8,6 +8,7 @@ import en from '@angular/common/locales/en';
 import { provideNzDateFnsAdapter } from 'ng-zorro-antd/core/time';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { jwtInterceptor } from './core/auth/jwt-interceptor';
+import { errorInterceptor } from './core/interceptors/error-interceptor';
 
 registerLocaleData(en);
 
@@ -22,7 +23,7 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled',
       }),
     ),
-    provideHttpClient(withInterceptors([jwtInterceptor])),
+    provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor])),
     provideNzI18n(en_US),
     provideNzDateFnsAdapter(),
   ],

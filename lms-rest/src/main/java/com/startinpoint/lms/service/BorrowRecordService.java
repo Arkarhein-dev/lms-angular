@@ -24,8 +24,6 @@ public class BorrowRecordService {
     private final UserMapper userMapper;
 
 
-
-
     public Page<BorrowRecordResponseDto> getUserActiveBorrowRecords(
             String username, BorrowStatus status,
             Pageable pageable

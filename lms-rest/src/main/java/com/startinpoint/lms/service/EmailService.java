@@ -32,6 +32,8 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String senderEmail;
 
+    // This email is sent to admin when book Borrowers try to borrow the book which are out of stock.
+    // email send to admin
     @Async
     public void sendOutOfStockNotificationToAdmin(
             String bookTitle, Long bookId, String requestUsername
@@ -63,6 +65,8 @@ public class EmailService {
         }
     }
 
+    // Part of sending email to book borrowers for their overdue books
+    // Send to Book Borrowers
     public void sendOverdueNotice(String userEmail,List<BorrowRecord> userOverdueRecords) {
         if(userOverdueRecords.isEmpty()){
             return;
@@ -85,6 +89,7 @@ public class EmailService {
         }
     }
 
+    // Build overdue email to send to book borrowers
     private String buildOverdueEmailHtml(List<BorrowRecord> userOverdueRecords) {
         StringBuilder tableRows = new StringBuilder();
 
@@ -133,6 +138,8 @@ public class EmailService {
     """, userOverdueRecords.size(), tableRows.toString());
     }
 
+    // INFO :=> Part of sending email to Admin
+    // send to admin for stock out book
     public void sentOutOfStockAlert(String recipientEmail, List<Book> stockOutBooks) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
@@ -146,6 +153,7 @@ public class EmailService {
         log.info("Stock Out Email sent to {} Successfully... ",recipientEmail);
     }
 
+    // Email Build to send to admin
     private String buildStockOutEmailHtml(List<Book> books) {
         StringBuilder tableRows = new StringBuilder();
 
@@ -174,7 +182,7 @@ public class EmailService {
                     <p style="color: #333333; font-size: 15px;">
                         The dynamic scheduler check executed and found <strong>%d book(s)</strong> currently out of stock in the Library Management System:
                     </p>
-        
+
                     <table style="width: 100%%; border-collapse: collapse; margin: 20px 0; text-align: left;">
                         <thead>
                             <tr style="background-color: #f8f9fa;">
@@ -198,6 +206,8 @@ public class EmailService {
         """, books.size(), tableRows.toString());
     }
 
+
+    // Helper Method for html content builder
     private String escapeHtml(String input) {
         if (input == null) return "";
         return input.replace("&", "&amp;")

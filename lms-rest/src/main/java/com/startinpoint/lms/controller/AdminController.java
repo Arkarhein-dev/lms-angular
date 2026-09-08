@@ -2,48 +2,61 @@ package com.startinpoint.lms.controller;
 
 import com.startinpoint.lms.dto.SchedulerConfigDto;
 import com.startinpoint.lms.dto.StockOutAlertConfigDto;
-import com.startinpoint.lms.service.QuartzSchedulerService;
+import com.startinpoint.lms.service.OverDueJobQuartzSchedulerService;
 import com.startinpoint.lms.service.StockOutEmailTriggerService;
 import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/admin/settings")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-  private final QuartzSchedulerService quartzSchedulerService;
+  private final OverDueJobQuartzSchedulerService overDueJobQuartzSchedulerService;
   private final StockOutEmailTriggerService stockOutEmailTriggerService;
+
 
   // --- Overdue Scheduler Endpoints ---
 
+  // localhost:8081/library/api/v1/admin/settings/borrow-overdue-scheduler
+  // get borrow overdue scheduler config
   @GetMapping("/borrow-overdue-scheduler")
   public ResponseEntity<SchedulerConfigDto> getBorrowOverdueSchedulerConfig() {
-    SchedulerConfigDto config = quartzSchedulerService.getOverdueJobConfig();
+    SchedulerConfigDto config = overDueJobQuartzSchedulerService.getOverdueJobConfig();
     return ResponseEntity.ok(config);
   }
 
-  @PostMapping("/save-borrow-overdue-scheduler")
+  // update borrow overdue scheduler
+  @PutMapping("/borrow-overdue-scheduler")
   public ResponseEntity<Map<String, String>> saveBorrowOverdueScheduler(
     @RequestParam(value = "enabled", defaultValue = "false") boolean enabled,
     @RequestParam("time") String time // Accepts "HH:mm"
   ) {
     try {
-      String[] timeParts = time.split(":");
-      String hour = timeParts[0];
-      String minute = timeParts[1];
+      // Safe parsing to avoid ArrayIndexOutOfBoundsException on malformed strings
+      LocalTime parsedTime = LocalTime.parse(time);
+      String hour = String.format("%02d", parsedTime.getHour());
+      String minute = String.format("%02d", parsedTime.getMinute());
 
       // Format into Quartz cron: "0 mm HH * * ?"
       String cronExpression = String.format("0 %s %s * * ?", minute, hour);
 
-      quartzSchedulerService.updateOverdueScheduler(enabled, cronExpression);
+      overDueJobQuartzSchedulerService.updateOverdueScheduler(enabled, cronExpression);
       return ResponseEntity.ok(Map.of(
         "message", "Quartz overdue configuration updated successfully to " + time + "!"
+      ));
+    } catch (DateTimeParseException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+        "error", "Invalid time format. Please use 'HH:mm' format."
       ));
     } catch (SchedulerException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
@@ -52,10 +65,11 @@ public class AdminController {
     }
   }
 
-  @PostMapping("/trigger-overdue-check")
+  // Trigger overdue check job immediately
+  @PostMapping("/borrow-overdue-scheduler/trigger")
   public ResponseEntity<Map<String, String>> triggerOverdueCheckNow() {
     try {
-      quartzSchedulerService.triggerJobNow();
+      overDueJobQuartzSchedulerService.triggerJobNow();
       return ResponseEntity.ok(Map.of("message", "Quartz overdue alert job triggered immediately!"));
     } catch (SchedulerException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
@@ -64,15 +78,18 @@ public class AdminController {
     }
   }
 
+
   // --- Admin Email Alert Endpoints ---
 
+  // Get Stock out alert config for admin
   @GetMapping("/stock-out-alert")
   public ResponseEntity<StockOutAlertConfigDto> getStockOutAlertConfig() {
     StockOutAlertConfigDto config = stockOutEmailTriggerService.getCurrentConfig();
     return ResponseEntity.ok(config);
   }
 
-  @PostMapping("/stock-out-schedule")
+  // Update Stock out schedule of admin
+  @PutMapping("/stock-out-alert")
   public ResponseEntity<Map<String, String>> updateStockOutSchedule(
     @RequestBody StockOutAlertConfigDto config
   ) {
@@ -86,7 +103,8 @@ public class AdminController {
     }
   }
 
-  @PostMapping("/toggle-stock-out-alert")
+  // Toggle Stock out Alert trigger status
+  @PatchMapping("/stock-out-alert/status")
   public ResponseEntity<Map<String, String>> toggleStockOutAlert(
     @RequestParam(value = "enabled", defaultValue = "false") Boolean enabled
   ) {

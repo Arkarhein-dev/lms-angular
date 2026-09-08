@@ -4,6 +4,10 @@
   padding: 24px;
 }
 
+.nz-divider {
+  color: rgb(253, 135, 0);
+}
+
 .header-section h1 {
   margin-bottom: 4px;
   font-size: 24px;

@@ -6,6 +6,7 @@ import com.startinpoint.lms.dto.authDto.LoginRequestDto;
 import com.startinpoint.lms.dto.authDto.RegisterRequestDto;
 import com.startinpoint.lms.entity.User;
 import com.startinpoint.lms.entity.UserRole;
+import com.startinpoint.lms.exception.ResourceAlreadyExistsException;
 import com.startinpoint.lms.mapper.UserMapper;
 import com.startinpoint.lms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,10 @@ public class AuthService {
 
   public AuthResponseDto register(RegisterRequestDto requestDto){
     if(userRepository.existsByEmail(requestDto.email())){
-      throw new IllegalArgumentException("Email already exists");
+      throw new ResourceAlreadyExistsException("Email already exists");
     }
     if(userRepository.existsByUsername(requestDto.username())){
-      throw new IllegalArgumentException("Username already exists");
+      throw new ResourceAlreadyExistsException("Username already exists");
     }
 
     User newUser = userMapper.toUserEntity(requestDto);

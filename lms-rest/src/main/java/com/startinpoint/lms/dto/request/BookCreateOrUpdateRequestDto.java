@@ -12,8 +12,7 @@ public record BookCreateOrUpdateRequestDto(
         @NotBlank(message = "Author Name should not be blank")
         String author,
 
-        @NotBlank(message = "ImageUrl should not be blank")
-        String imageUrl,
+
 
         @NotBlank(message = "Genre should not be blank.")
         String genre,
@@ -23,6 +22,18 @@ public record BookCreateOrUpdateRequestDto(
         Integer stock,
 
         @NotBlank(message = "Description should not be blank.")
-        String description
+        String description,
+
+
+        @NotBlank(message = "Cover image file name can't be blank")
+        String coverFileName,
+        @NotBlank(message = "cover image file can't be blank")
+        String coverBase64,
+
+        @NotBlank(message = "Pdf File name can't be blank")
+        String pdfFileName,
+        @NotBlank(message = "Pdf file can't be blank")
+        String pdfBase64
+
 ) {
 }

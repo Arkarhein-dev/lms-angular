@@ -13,9 +13,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-//	Page<Book> findByAvailableTrue(Pageable pageable);
-//
-//    Page<Book> findByAvailableTrueAndTitleContainingIgnoreCase(String title, Pageable pageable);
 
     // 1. Available books without keyword
     Page<Book> findByStockGreaterThan(int stock, Pageable pageable);

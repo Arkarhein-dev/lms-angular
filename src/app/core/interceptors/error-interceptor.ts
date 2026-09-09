@@ -20,14 +20,20 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       let errorMessage = 'An unexpected error occurred. Please try again.';
       let errorTitle = 'System Error';
 
+      let effectiveStatus = error.status;
+
       if (error.error && typeof error.error === 'object') {
         const apiError = error.error as ApiErrorResponse;
+        if (apiError.status) {
+          effectiveStatus = apiError.status;
+        }
+
         if (apiError.message) {
           errorMessage = apiError.message;
         }
       }
 
-      switch (error.status) {
+      switch (effectiveStatus) {
         case 400:
           errorTitle = 'Bad Request';
           notification.error(errorTitle, errorMessage);

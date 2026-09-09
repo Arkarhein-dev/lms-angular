@@ -9,6 +9,7 @@ import { UserBorrowBooks } from './features/admin/user-management/user-borrow-bo
 import { authGuard } from './core/auth/auth-guard';
 import { adminGuard } from './core/auth/admin-guard';
 import { AdminSettings } from './features/admin/admin-settings/admin-settings';
+import { userGuard } from './core/auth/user-guard';
 
 export const routes: Routes = [
   {
@@ -19,22 +20,24 @@ export const routes: Routes = [
   {
     path: 'home',
     component: Home,
+    canActivate: [userGuard],
   },
   {
     path: 'book-detail/:bookId',
     component: BookDetails,
+    canActivate: [userGuard],
   },
 
   // User Guard
   {
     path: 'my-books',
     component: MyBooks,
-    canActivate: [authGuard],
+    canActivate: [authGuard, userGuard],
   },
   {
     path: 'read-online/:bookId',
     component: ReadBook,
-    canActivate: [authGuard],
+    canActivate: [authGuard, userGuard],
   },
 
   // Admin Guard
@@ -62,5 +65,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: 'home',
-  },
+  }, 
 ];

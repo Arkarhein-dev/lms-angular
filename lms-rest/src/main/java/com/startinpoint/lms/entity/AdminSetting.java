@@ -1,31 +1,48 @@
 package com.startinpoint.lms.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileServerSetting {
+public class AdminSetting {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
-  private String serverName;
+//  @Column(nullable = false, length = 50)
+//  private String name;
 
-  @Column(nullable = false)
-  private String domainName;
+  @Column(nullable = false, length = 50)
+  private String categoryName; // e.g., "FILE_SERVER"
 
-  @Column(nullable = false)
-  private String username;
+  @Column(nullable = false,length = 50, unique = true)
+  private String label;  // e.g., "SERVER_NAME", "SHARED_NAME", "USERNAME", "PASSWORD"
 
-  @Column(nullable = false)
-  private String password;
+  @Column(nullable = false, length = 250)
+  private String value;
 
-  @Column(nullable = false)
-  private String sharedName;
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @Column(nullable = false, updatable = false)
+  private String createdBy;
+
+  @PrePersist
+  public void onPrePersist(){
+    this.setCreatedAt(LocalDateTime.now());
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication != null && authentication.isAuthenticated()){
+      this.setCreatedBy(authentication.getName());
+    }else {
+      this.setCreatedBy("ADMIN");
+    }
+  }
 }

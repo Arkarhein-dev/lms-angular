@@ -24,8 +24,7 @@ public class Book {
 	@Column(length = 150, nullable = false)
 	private String author;
 
-	@Column(nullable = false)
-	private String imageUrl;
+
 
 	@Column(length = 150, nullable = false)
 	private String genre;
@@ -40,6 +39,10 @@ public class Book {
 	@Column(nullable = false)
 	private boolean available;
 
+  @Column(nullable = false)
+  private String imageUrl;
+
+  @Column(nullable = false)
   private String filepath;
 
 	@OneToMany(mappedBy = "book")

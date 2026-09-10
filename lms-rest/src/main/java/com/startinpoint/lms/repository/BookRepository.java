@@ -17,6 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // 1. Available books without keyword
     Page<Book> findByStockGreaterThan(int stock, Pageable pageable);
 
+    boolean existsByTitleIgnoreCase(String title);
+
     // 2. Available books WITH keyword
     @Query("""
         SELECT b FROM Book b

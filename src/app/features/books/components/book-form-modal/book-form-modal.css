@@ -76,3 +76,8 @@ textarea[nz-input] {
   padding-top: 16px !important;
   border-top: 1px solid #f0f0f0 !important;
 }
+
+::ng-deep .ant-form-item-extra {
+  color: red;
+  font-weight: 500;
+}

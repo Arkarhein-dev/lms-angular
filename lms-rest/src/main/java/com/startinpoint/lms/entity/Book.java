@@ -18,13 +18,11 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(length = 150, nullable = false)
+	@Column(length = 150, nullable = false,unique = true)
 	private String title;
 
 	@Column(length = 150, nullable = false)
 	private String author;
-
-
 
 	@Column(length = 150, nullable = false)
 	private String genre;

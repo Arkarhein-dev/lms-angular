@@ -23,14 +23,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- ImageUrl -->
-      <nz-form-item>
-        <nz-form-label nzRequired>ImageUrl</nz-form-label>
-        <nz-form-control nzErrorTip="ImageUrl is required">
-          <input type="text" nz-input formControlName="imageUrl" placeholder="Enter ImageUrl" />
-        </nz-form-control>
-      </nz-form-item>
-
       <!-- Genre -->
       <nz-form-item>
         <nz-form-label nzRequired>Genre</nz-form-label>
@@ -39,7 +31,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- ➕ ADD THIS MISSING STOCK FIELD CONTROL -->
       <nz-form-item>
         <nz-form-label nzRequired>Stock Quantity</nz-form-label>
         <nz-form-control nzErrorTip="Stock must be between 0 and 999">
@@ -64,6 +55,70 @@
             rows="4"
             placeholder="Enter Description"
           ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- <nz-form-item>
+        <nz-form-label nzRequired>Cover Image Name</nz-form-label>
+        <nz-form-control nzErrorTip=" Pleae Upload a cover image">
+          <input
+            type="text"
+            nz-input
+            placeholder="Selected Cover Image File Name"
+            formControlName="coverFileName"
+            readonly
+          />
+        </nz-form-control>
+      </nz-form-item> -->
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Cover Image</nz-form-label>
+        <nz-form-control
+          nzErrorTip="Cover image file is required"
+          nzExtra="Supported Formats: PNG, JPG, JPEG, WEBP"
+        >
+          <nz-upload
+            [nzBeforeUpload]="beforeUploadCover"
+            [nzFileList]="coverFileList"
+            nzAccept="image/png, image/jpeg, image/jpg, image/webp"
+          >
+            <button nz-button type="button">
+              <nz-icon nzType="upload" />
+              Select Cover Image
+            </button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- <nz-form-item>
+        <nz-form-label nzRequired>Pdf File Name</nz-form-label>
+        <nz-form-control nzErrorTip="Pdf file name">
+          <input
+            type="text"
+            nz-input
+            formControlName="pdfFileName"
+            placeholder="Enter Pdf file name"
+            readonly
+          />
+        </nz-form-control>
+      </nz-form-item> -->
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Pdf File</nz-form-label>
+        <nz-form-control
+          nzErrorTip="Pdf File is required"
+          nzExtra="Supported Format : pdf (Max: 50MB)"
+        >
+          <nz-upload
+            [nzBeforeUpload]="beforeUploadPdf"
+            [nzFileList]="pdfFileList"
+            nzAccept="application/pdf"
+          >
+            <button nz-button type="button">
+              <nz-icon nzType="upload"></nz-icon>
+              Select Pdf File
+            </button>
+          </nz-upload>
         </nz-form-control>
       </nz-form-item>
 

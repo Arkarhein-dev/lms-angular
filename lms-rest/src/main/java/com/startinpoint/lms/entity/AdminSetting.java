@@ -17,9 +17,6 @@ public class AdminSetting {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-//  @Column(nullable = false, length = 50)
-//  private String name;
-
   @Column(nullable = false, length = 50)
   private String categoryName; // e.g., "FILE_SERVER"
 

@@ -2,10 +2,16 @@ package com.startinpoint.lms.controller;
 
 import com.startinpoint.lms.dto.SchedulerConfigDto;
 import com.startinpoint.lms.dto.StockOutAlertConfigDto;
+import com.startinpoint.lms.dto.response.AdminSettingResponseDto;
+import com.startinpoint.lms.service.AdminSettingService;
 import com.startinpoint.lms.service.OverDueJobQuartzSchedulerService;
 import com.startinpoint.lms.service.StockOutEmailTriggerService;
 import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +29,7 @@ public class AdminController {
 
   private final OverDueJobQuartzSchedulerService overDueJobQuartzSchedulerService;
   private final StockOutEmailTriggerService stockOutEmailTriggerService;
-
+  private final AdminSettingService adminSettingService;
 
   // --- Overdue Scheduler Endpoints ---
 
@@ -118,4 +124,21 @@ public class AdminController {
       ));
     }
   }
+
+
+//  ********************************************************************************
+  // =================== General Settings like SMB Server Configuratioin ===========
+//  ********************************************************************************
+
+  // localhost:8081/library/api/v1/admin/settings/admin-genearl-settings
+  @GetMapping("/admin-genearl-settings")
+  public ResponseEntity<Page<AdminSettingResponseDto>> getAllAdminSettings(
+    @PageableDefault(page = 0, size = 50, sort = "id", direction = Sort.Direction.ASC)Pageable pageable
+    ){
+    return ResponseEntity.status(HttpStatus.OK).body(adminSettingService.getAllAdminSettings(pageable));
+  }
+
+
+
+
 }

@@ -38,3 +38,8 @@
 .btn-flex {
   flex: 1;
 }
+
+::ng-deep .ant-tabs-tab-btn {
+  font-size: 18px;
+  font-weight: 500;
+}

@@ -26,6 +26,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { RouterLink } from '@angular/router';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { SystemSettings } from './system-settings/system-settings';
 
 @Component({
   selector: 'app-admin-settings',
@@ -48,6 +50,8 @@ import { RouterLink } from '@angular/router';
     NzGridModule,
     NzDividerModule,
     NzSpaceModule,
+    NzTabsModule,
+    SystemSettings,
   ],
   templateUrl: './admin-settings.html',
   styleUrl: './admin-settings.css',

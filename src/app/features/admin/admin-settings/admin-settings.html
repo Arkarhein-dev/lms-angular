@@ -4,107 +4,116 @@
   </a>
 
   <div class="header-section">
-    <h1>Admin System Settings</h1>
+    <h1>Admin Settings</h1>
     <p class="subtitle">Configure background schedulers, automated jobs, and email alerts.</p>
   </div>
 
   <nz-divider class="nz-divider"></nz-divider>
 
-  <div nz-row [nzGutter]="[24, 24]">
-    <!-- Section 1: Overdue Books Scheduler -->
-    <div nz-col [nzXs]="24" [nzLg]="12">
-      <nz-card [nzTitle]="overdueTitleTemplate" [nzExtra]="overdueExtraTemplate">
-        <form
-          nz-form
-          nzLayout="vertical"
-          [formGroup]="overdueForm"
-          (ngSubmit)="onSaveOverdueScheduler()"
-        >
-          <nz-form-item>
-            <nz-form-label nzRequired>Execution Time (Daily)</nz-form-label>
-            <nz-form-control nzErrorTip="Please select a valid execution time">
-              <nz-time-picker
-                formControlName="time"
-                nzFormat="HH:mm"
-                class="full-width"
-              ></nz-time-picker>
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-control>
-              <label nz-checkbox formControlName="enabled"> Enable Daily Overdue Check </label>
-            </nz-form-control>
-          </nz-form-item>
-
-          <div class="button-group">
-            <button nz-button nzType="primary" type="submit" class="btn-flex">Save Schedule</button>
-            <button
-              nz-button
-              nzType="default"
-              nzDanger
-              type="button"
-              (click)="onTriggerOverdueNow()"
+  <nz-tabs nzCentered>
+    <nz-tab nzTitle="Quartz Scheduler">
+      <div nz-row [nzGutter]="[24, 24]">
+        <!-- Section 1: Overdue Books Scheduler -->
+        <div nz-col [nzXs]="24" [nzLg]="12">
+          <nz-card [nzTitle]="overdueTitleTemplate" [nzExtra]="overdueExtraTemplate">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="overdueForm"
+              (ngSubmit)="onSaveOverdueScheduler()"
             >
-              Run Now
-            </button>
-          </div>
-        </form>
-      </nz-card>
-    </div>
-
-    <!-- Section 2: Stock Out Alert Settings -->
-    <div nz-col [nzXs]="24" [nzLg]="12">
-      <nz-card [nzTitle]="stockOutTitleTemplate" [nzExtra]="stockOutExtraTemplate">
-        <form
-          nz-form
-          nzLayout="vertical"
-          [formGroup]="stockOutForm"
-          (ngSubmit)="onSaveStockOutSchedule()"
-        >
-          <nz-form-item>
-            <nz-form-label nzRequired>Admin Notification Email</nz-form-label>
-            <nz-form-control nzErrorTip="Please input a valid email address">
-              <input nz-input formControlName="adminEmail" placeholder="admin@library.com" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <div nz-row [nzGutter]="16">
-            <div nz-col [nzSpan]="12">
               <nz-form-item>
-                <nz-form-label nzRequired>Interval Value</nz-form-label>
-                <nz-form-control nzErrorTip="Minimum value is 1">
-                  <nz-input-number
-                    formControlName="intervalValue"
-                    [nzMin]="1"
+                <nz-form-label nzRequired>Execution Time (Daily)</nz-form-label>
+                <nz-form-control nzErrorTip="Please select a valid execution time">
+                  <nz-time-picker
+                    formControlName="time"
+                    nzFormat="HH:mm"
                     class="full-width"
-                  ></nz-input-number>
+                  ></nz-time-picker>
                 </nz-form-control>
               </nz-form-item>
-            </div>
 
-            <div nz-col [nzSpan]="12">
               <nz-form-item>
-                <nz-form-label nzRequired>Time Unit</nz-form-label>
                 <nz-form-control>
-                  <nz-select formControlName="timeUnit" class="full-width">
-                    <nz-option nzValue="MINUTES" nzLabel="Minutes"></nz-option>
-                    <nz-option nzValue="HOURS" nzLabel="Hours"></nz-option>
-                  </nz-select>
+                  <label nz-checkbox formControlName="enabled"> Enable Daily Overdue Check </label>
                 </nz-form-control>
               </nz-form-item>
-            </div>
-          </div>
 
-          <div class="button-group">
-            <button nz-button nzType="primary" type="submit" class="full-width">
-              Save Email Config
-            </button>
-          </div>
-        </form>
-      </nz-card>
-    </div>
-  </div>
+              <div class="button-group">
+                <button nz-button nzType="primary" type="submit" class="btn-flex">
+                  Save Schedule
+                </button>
+                <button
+                  nz-button
+                  nzType="default"
+                  nzDanger
+                  type="button"
+                  (click)="onTriggerOverdueNow()"
+                >
+                  Run Now
+                </button>
+              </div>
+            </form>
+          </nz-card>
+        </div>
+
+        <!-- Section 2: Stock Out Alert Settings -->
+        <div nz-col [nzXs]="24" [nzLg]="12">
+          <nz-card [nzTitle]="stockOutTitleTemplate" [nzExtra]="stockOutExtraTemplate">
+            <form
+              nz-form
+              nzLayout="vertical"
+              [formGroup]="stockOutForm"
+              (ngSubmit)="onSaveStockOutSchedule()"
+            >
+              <nz-form-item>
+                <nz-form-label nzRequired>Admin Notification Email</nz-form-label>
+                <nz-form-control nzErrorTip="Please input a valid email address">
+                  <input nz-input formControlName="adminEmail" placeholder="admin@library.com" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <div nz-row [nzGutter]="16">
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label nzRequired>Interval Value</nz-form-label>
+                    <nz-form-control nzErrorTip="Minimum value is 1">
+                      <nz-input-number
+                        formControlName="intervalValue"
+                        [nzMin]="1"
+                        class="full-width"
+                      ></nz-input-number>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label nzRequired>Time Unit</nz-form-label>
+                    <nz-form-control>
+                      <nz-select formControlName="timeUnit" class="full-width">
+                        <nz-option nzValue="MINUTES" nzLabel="Minutes"></nz-option>
+                        <nz-option nzValue="HOURS" nzLabel="Hours"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button nz-button nzType="primary" type="submit" class="full-width">
+                  Save Email Config
+                </button>
+              </div>
+            </form>
+          </nz-card>
+        </div>
+      </div>
+    </nz-tab>
+    <nz-tab nzTitle="System Settings">
+      <app-system-settings></app-system-settings>
+    </nz-tab>
+  </nz-tabs>
 </div>
 
 <!-- Card Header Templates -->

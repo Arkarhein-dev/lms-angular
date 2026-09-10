@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Page } from '../../shared/models/page.model';
+import { SystemSettingResponse } from '../../features/admin/model/system-setting.model';
 
 export interface SchedulerConfigDto {
   enabled: boolean;
@@ -64,5 +66,22 @@ export class AdminSettingService {
       null,
       { params },
     );
+  }
+
+  //  *******************************************************************
+  //  ================= Admin System Settings ==========================
+  // ********************************************************************
+
+  getAlllSystemSettings(
+    page: number = 0,
+    size: number = 10,
+    sortField: string = 'id',
+    sortDir: 'asc' | 'desc' = 'asc',
+  ): Observable<Page<SystemSettingResponse>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', `${sortField},${sortDir}`);
+    return this.httpClient.get<Page<SystemSettingResponse>>(this.baseUrl, { params });
   }
 }

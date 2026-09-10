@@ -34,6 +34,7 @@ public class BookService {
 	private final UserRepository userRepository;
 	private final BorrowRecordRepository borrowRecordRepository;
 	private final EmailService emailService;
+  private final SmbStorageService smbStorageService;
 	private final BookMapper bookMapper;
   private final BorrowRecordMapper borrowRecordMapper;
 
@@ -99,12 +100,18 @@ public BookResponseDto saveOrUpdateBook(Long id, BookCreateOrUpdateRequestDto dt
   return createNewBook(dto);
 }
 
-  private BookResponseDto createNewBook(BookCreateOrUpdateRequestDto dto) {
-//    if(bookRepository.existsByBookTitle()){
-//      implement later check for same book title
-//    }
-//
+  @Transactional
+  public BookResponseDto createNewBook(BookCreateOrUpdateRequestDto dto) {
+    if(bookRepository.existsByTitleIgnoreCase(dto.title())){
+      throw new IllegalArgumentException("Book with title "+dto.title()+ " already exists.");
+    }
+
+    String imageUrl = smbStorageService.uploadBase64ToSmb(dto.coverFileName(), dto.coverBase64(), "ArkarShare/cover-image");
+    String filepath = smbStorageService.uploadBase64ToSmb(dto.pdfFileName(), dto.pdfBase64(), "ArkarShare/books");
+
     Book newBook = bookMapper.toBookEntity(dto);
+    newBook.setImageUrl(imageUrl);
+    newBook.setFilepath(filepath);
     Book savedBook = bookRepository.save(newBook);
     return bookMapper.toBookResponse(savedBook);
   }

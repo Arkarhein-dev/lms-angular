@@ -1,4 +1,14 @@
 package com.startinpoint.lms.dto.response;
 
-public class AdminSettingResponseDto {
+import lombok.Builder;
+
+@Builder
+public record AdminSettingResponseDto(
+  String id,
+  String categoryName,
+  String label,
+  String value,
+  String createdAt,
+  String createdBy
+) {
 }

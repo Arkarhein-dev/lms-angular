@@ -12,8 +12,6 @@ public record BookCreateOrUpdateRequestDto(
         @NotBlank(message = "Author Name should not be blank")
         String author,
 
-
-
         @NotBlank(message = "Genre should not be blank.")
         String genre,
 

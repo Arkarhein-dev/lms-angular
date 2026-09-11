@@ -10,3 +10,4 @@ public record AdminSettingRequestDto(
   @NotBlank(message = "Value shouldn't be blank.")
   String value
 ) {}
+

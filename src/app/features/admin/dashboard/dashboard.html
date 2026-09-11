@@ -32,6 +32,7 @@
     placeholderName="Search the book you want"
     (searchSubmitted)="handleSearchSubmit($event)"
   />
+
   <div class="add-book-button" nz-col nzSpan="6">
     <button
       (click)="openCreateBookForm()"
@@ -92,5 +93,6 @@
   [visible]="isBookFormVisible()"
   [book]="selectedBook()"
   (closed)="closeBookForm()"
+  [isSubmitting]="onSubmitting()"
   (submitted)="handleBookSubmit($event)"
 />

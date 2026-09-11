@@ -2,7 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../../shared/models/page.model';
-import { SystemSettingResponse } from '../../features/admin/model/system-setting.model';
+import {
+  SystemSettingRequest,
+  SystemSettingResponse,
+} from '../../features/admin/model/system-setting.model';
 
 export interface SchedulerConfigDto {
   enabled: boolean;
@@ -72,7 +75,7 @@ export class AdminSettingService {
   //  ================= Admin System Settings ==========================
   // ********************************************************************
 
-  getAlllSystemSettings(
+  getAllSystemSettings(
     page: number = 0,
     size: number = 10,
     sortField: string = 'id',
@@ -82,6 +85,27 @@ export class AdminSettingService {
       .set('page', page.toString())
       .set('size', size.toString())
       .set('sort', `${sortField},${sortDir}`);
-    return this.httpClient.get<Page<SystemSettingResponse>>(this.baseUrl, { params });
+    return this.httpClient.get<Page<SystemSettingResponse>>(
+      `${this.baseUrl}/admin-general-settings`,
+      { params },
+    );
+  }
+
+  createAdminSetting(request: SystemSettingRequest): Observable<SystemSettingResponse> {
+    return this.httpClient.post<SystemSettingResponse>(
+      `${this.baseUrl}/admin-general-settings`,
+      request,
+    );
+  }
+
+  updateAdminSetting(id: number, request: SystemSettingRequest): Observable<SystemSettingResponse> {
+    return this.httpClient.put<SystemSettingResponse>(
+      `${this.baseUrl}/admin-general-settings/${id}`,
+      request,
+    );
+  }
+
+  deleteAdminSetting(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/admin-general-settings/${id}`);
   }
 }

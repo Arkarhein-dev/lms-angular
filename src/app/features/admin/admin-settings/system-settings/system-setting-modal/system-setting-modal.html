@@ -1,0 +1,36 @@
+<form nz-form [formGroup]="modalForm" (ngSubmit)="save()" nzLayout="vertical">
+  <nz-form-item>
+    <nz-form-label nzRequired>Category Name</nz-form-label>
+    <nz-form-control nzErrorTip="Category Name is required!">
+      <input
+        nz-input
+        formControlName="categoryName"
+        placeholder="Enter Category Name (e.g. FILE_SERVER)"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Label</nz-form-label>
+    <nz-form-control nzErrorTip="Label is required!">
+      <input nz-input formControlName="label" placeholder="Enter Label (e.g. SERVER_NAME)" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>Value</nz-form-label>
+    <nz-form-control nzErrorTip="Value is required!">
+      <input nz-input formControlName="value" placeholder="Enter Value" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Modal Action Buttons (Pure NG-ZORRO Alignment) -->
+  <div nz-row nzJustify="end" [nzGutter]="8">
+    <div nz-col>
+      <button nz-button nzType="default" type="button" (click)="onDestroy()">Cancel</button>
+    </div>
+    <div nz-col>
+      <button nz-button nzType="primary" type="submit" [nzLoading]="isSubmitting()">Save</button>
+    </div>
+  </div>
+</form>

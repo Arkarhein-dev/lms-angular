@@ -2,10 +2,12 @@ package com.startinpoint.lms.controller;
 
 import com.startinpoint.lms.dto.SchedulerConfigDto;
 import com.startinpoint.lms.dto.StockOutAlertConfigDto;
+import com.startinpoint.lms.dto.request.AdminSettingRequestDto;
 import com.startinpoint.lms.dto.response.AdminSettingResponseDto;
 import com.startinpoint.lms.service.AdminSettingService;
 import com.startinpoint.lms.service.OverDueJobQuartzSchedulerService;
 import com.startinpoint.lms.service.StockOutEmailTriggerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.data.domain.Page;
@@ -127,18 +129,34 @@ public class AdminController {
 
 
 //  ********************************************************************************
-  // =================== General Settings like SMB Server Configuratioin ===========
+//  =================== General Settings like SMB Server Configuratioin ============
 //  ********************************************************************************
 
-  // localhost:8081/library/api/v1/admin/settings/admin-genearl-settings
-  @GetMapping("/admin-genearl-settings")
+  // localhost:8081/library/api/v1/admin/settings/admin-general-settings
+  @GetMapping("/admin-general-settings")
   public ResponseEntity<Page<AdminSettingResponseDto>> getAllAdminSettings(
     @PageableDefault(page = 0, size = 50, sort = "id", direction = Sort.Direction.ASC)Pageable pageable
     ){
     return ResponseEntity.status(HttpStatus.OK).body(adminSettingService.getAllAdminSettings(pageable));
   }
 
+  @PostMapping("/admin-general-settings")
+  public ResponseEntity<AdminSettingResponseDto> createAdminSetting(@Valid @RequestBody AdminSettingRequestDto requestDto){
+    return ResponseEntity.ok(adminSettingService.createSetting(requestDto));
+  }
 
+  // localhost:8081/library/api/v1/admin/settings/admin-general-settings/{id}
+  @PutMapping("/admin-general-settings/{id}")
+  public ResponseEntity<AdminSettingResponseDto> updateAdminSetting(
+    @PathVariable Long id, @Valid @RequestBody AdminSettingRequestDto requestDto
+  ){
+   return ResponseEntity.ok(adminSettingService.updateSetting(id, requestDto));
+  }
 
+  @DeleteMapping("/admin-general-settings/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteSetting(@PathVariable Long id){
+    adminSettingService.deleteSetting(id);
+  }
 
 }

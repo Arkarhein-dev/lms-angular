@@ -27,6 +27,7 @@ export class BookFormModal {
   visible = input(false);
   book = input<Book | null>(null);
   closed = output<void>();
+  isSubmitting = input(false);
   submitted = output<{
     title: string;
     author: string;
@@ -150,7 +151,12 @@ export class BookFormModal {
   onSubmit(): void {
     if (this.bookForm.invalid) {
       this.bookForm.markAllAsTouched();
-      return;
+      Object.values(this.bookForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
     }
 
     this.submitted.emit(this.bookForm.getRawValue());

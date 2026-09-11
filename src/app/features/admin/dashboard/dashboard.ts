@@ -60,6 +60,7 @@ export class Dashboard implements OnInit {
   // Modal State
   isBookFormVisible = signal(false);
   selectedBook = signal<Book | null>(null);
+  onSubmitting = signal(false);
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -158,22 +159,31 @@ export class Dashboard implements OnInit {
   }
 
   handleBookSubmit(bookData: any): void {
+    this.onSubmitting.set(true);
     const currentBook = this.selectedBook();
     if (currentBook) {
       this.bookService.updateBook(currentBook.id, bookData).subscribe({
         next: () => {
           this.fetchBooks(); // Refresh view to reflect server state
           this.closeBookForm();
+          this.onSubmitting.set(false);
         },
-        error: (err) => console.error('Error updating book:', err),
+        error: (err) => {
+          console.error('Error updating book:', err);
+          this.onSubmitting.set(false);
+        },
       });
     } else {
       this.bookService.createBook(bookData).subscribe({
         next: () => {
           this.fetchBooks();
           this.closeBookForm();
+          this.onSubmitting.set(false);
         },
-        error: (err) => console.error('Error creating book:', err),
+        error: (err) => {
+          console.error('Error creating book:', err);
+          this.onSubmitting.set(false);
+        },
       });
     }
   }

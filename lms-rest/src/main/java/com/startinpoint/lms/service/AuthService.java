@@ -53,5 +53,4 @@ public class AuthService {
     String token = jwtService.generateToken(savedUser);
     return new AuthResponseDto(token);
   }
-
 }

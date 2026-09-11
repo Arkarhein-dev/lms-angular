@@ -43,6 +43,7 @@ public class SecurityConfig {
         .requestMatchers(HttpMethod.GET, "/api/v1/books/**").permitAll()
         .requestMatchers("/api/v1/auth/**").permitAll()
         .requestMatchers("/api/v1/borrow-records/**").authenticated()
+        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
         .requestMatchers("/api/v1/users/**","/api/v1/admin/settings/**").hasRole("ADMIN")
         .anyRequest().authenticated()
       )

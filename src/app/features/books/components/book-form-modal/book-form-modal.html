@@ -58,19 +58,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- <nz-form-item>
-        <nz-form-label nzRequired>Cover Image Name</nz-form-label>
-        <nz-form-control nzErrorTip=" Pleae Upload a cover image">
-          <input
-            type="text"
-            nz-input
-            placeholder="Selected Cover Image File Name"
-            formControlName="coverFileName"
-            readonly
-          />
-        </nz-form-control>
-      </nz-form-item> -->
-
       <nz-form-item>
         <nz-form-label nzRequired>Cover Image</nz-form-label>
         <nz-form-control
@@ -89,19 +76,6 @@
           </nz-upload>
         </nz-form-control>
       </nz-form-item>
-
-      <!-- <nz-form-item>
-        <nz-form-label nzRequired>Pdf File Name</nz-form-label>
-        <nz-form-control nzErrorTip="Pdf file name">
-          <input
-            type="text"
-            nz-input
-            formControlName="pdfFileName"
-            placeholder="Enter Pdf file name"
-            readonly
-          />
-        </nz-form-control>
-      </nz-form-item> -->
 
       <nz-form-item>
         <nz-form-label nzRequired>Pdf File</nz-form-label>
@@ -123,7 +97,7 @@
       </nz-form-item>
 
       <div class="form-actions">
-        <button nz-button nzType="primary" type="submit">
+        <button nz-button nzType="primary" type="submit" [nzLoading]="isSubmitting()">
           {{ book() ? 'Update Book' : 'Create Book' }}
         </button>
       </div>
